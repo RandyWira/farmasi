@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Stokgudang extends Model
+class Stokperlokasi extends Model
 {
-    protected $table = "stok_gudang";
+    protected $table = "stok_per_lokasi";
 
     protected $fillable = [
         'id_barang',

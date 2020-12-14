@@ -120,9 +120,9 @@
                         <a href="{{ route('opname.index') }}"><i class="icon-briefcase"></i><span>Stok Opname</span></a>
                     </li>
                     <li>
-                        <a href="#"><i class="icon-facetime-video"></i><span>App Tour</span> </a></li>
+                        <a href="{{ route('riwayat.index') }}"><i class="icon-facetime-video"></i><span>Riwayat Obat</span> </a></li>
                     <li>
-                        <a href="#"><i class="icon-bar-chart"></i><span>Charts</span> </a> </li>
+                        <a href="{{ route('stok.index') }}"><i class="icon-bar-chart"></i><span>Stok per Lokasi</span> </a> </li>
                     <li>
                         <a href="#"><i class="icon-code"></i><span>Shortcodes</span></a>
                     </li>

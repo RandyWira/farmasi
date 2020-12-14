@@ -166,7 +166,6 @@
                 $.each(data, function(index, obj){
                     // alert(obj.nama)
                     console.log(obj.name)
-                    $(this).
                 })
             },
             error:function(thrownError,ajaxOption,xhr){

@@ -8,7 +8,7 @@ use App\Barang;
 use App\Satuan;
 use App\Golongan;
 use App\Kategori;
-use App\Stokgudang;
+use App\Stokperlokasi;
 use App\Setpersentasejual;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -79,7 +79,7 @@ class BarangController extends Controller
         DB::table('barang');
         $id = DB::getPdo()->lastInsertId();
         
-        $stok_gudang = new Stokgudang();
+        $stok_gudang = new Stokperlokasi();
         $stok_gudang->id_letak = $request->id_letak;
         $stok_gudang->id_barang = $id;
         
