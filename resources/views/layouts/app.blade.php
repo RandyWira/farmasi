@@ -120,7 +120,7 @@
                         <a href="{{ route('opname.index') }}"><i class="icon-briefcase"></i><span>Stok Opname</span></a>
                     </li>
                     <li>
-                        <a href="{{ route('riwayat.index') }}"><i class="icon-facetime-video"></i><span>Riwayat Obat</span> </a></li>
+                        <a href="{{ route('riwayat.index') }}"><i class="icon-time"></i><span>Riwayat Obat</span> </a></li>
                     <li>
                         <a href="{{ route('stok.index') }}"><i class="icon-bar-chart"></i><span>Stok per Lokasi</span> </a> </li>
                     <li>

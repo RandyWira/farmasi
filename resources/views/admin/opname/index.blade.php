@@ -37,6 +37,10 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="control-group">
+                            <label for="id_letak">Keterangan</label>
+                            <input type="text" name="keterangan" class="span3" id="keterangan" required>
+                        </div>
                         <table class="responsive-table centered" style="width:100%">
                             <thead>
                                 <tr>
