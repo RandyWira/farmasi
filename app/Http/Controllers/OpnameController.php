@@ -20,7 +20,8 @@ class OpnameController extends Controller
     {
         $barang = Barang::orderBy('nama', 'ASC')->get();
         $letak = Letak::orderBy('id_letak', 'ASC')->get();
-        return view('admin.opname.index', compact('barang', 'letak'));
+        $total_barang = Barang::orderBy('nama', 'ASC')->count();
+        return view('admin.opname.index', compact('barang', 'letak', 'total_barang'));
     }
 
     public function loaddata(Request $request)
