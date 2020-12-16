@@ -56,8 +56,8 @@
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
-                            <tbody id=list-form class="body350">
-                                <tr>
+                            <tbody id="list-form">
+                                <tr class="baris-data">
                                     <td>
                                         <input type="number" placeholder="Stok Real" class="span1" name="angka[0][real]">
                                     </td>
@@ -67,17 +67,17 @@
                                     </td>
                                     <td>
                                         {{-- {{ $barang->nama }} --}}
-                                        {{-- <input type="text" placeholder="Nama Obat" class="span1" name="angka[0][nama]"> --}}
+                                        {{-- <input type="text" placeholder="Nama Obat" class="span1 " name="angka[0][nama]"> --}}
                                         <input name="angka[0][nama]" type="text" autocomplete="off" list="list-data" class="span1 caribarang" placeholder="Nama Obat">
                                         
                                     </td>
                                     <td>
                                         {{-- @currency($barang->harga_beli) --}}
-                                        <input type="number" placeholder="Harga Beli" class="span1 hb" name="angka[0][harga_beli]">
+                                        <input type="number" placeholder="Harga Beli" class="span1 harga-beli" name="angka[0][harga_beli]">
                                     </td>
                                     <td>
                                         {{-- {{ $barang->stok_minimal }} --}}
-                                        <input type="number" placeholder="Stok" class="span1" name="angka[0][stok]">
+                                        <input type="number" placeholder="Stok" class="span1 stok" name="angka[0][stok]">
                                     </td>
                                     <td>
                                         <input type="text" class="span1" name="angka[0][selisih]" placeholder="Selisih">
@@ -91,11 +91,14 @@
                                     <td>
                                         <input type="text" class="span1" name="angka[0][nominal_lebih]" placeholder="nominal_lebih">
                                     </td>
-                                    <td>
-                                        <button type="button" id="tambah-input" class="btn btn-primary">+</button>
-                                    </td>
+                                    <td></td>
                                 </tr>
                             </tbody>
+                            <tr>
+                                <td colspan="8" style="text-align: right">
+                                    <button type="button" id="tambah-input" class="btn btn-primary">+</button>
+                                </td>
+                            </tr>
                         </table>
                         <div class="control-group">
                             <div class="controls">
@@ -103,16 +106,18 @@
                             </div>
                         </div>
                     </form>
+
+                    <input type="text" id="datalist-total" value="{{$total_barang}}">
+                    <!-- {{$total_barang}} -->
                     <datalist id="list-data">
                         @foreach ($barang as $i)
-                            <option value="{{$i->nama}}">{{$i->nama}}</option>  
+                            <option class="datalist-barang" value="{{$i->nama}}">{{$i->nama}}</option>  
                         @endforeach
                     </datalist>
                 </div>
             </div>
         </div>
     </div>
-
 <script>
 // var list = $('#list-input')
 // var angka = 0
@@ -124,11 +129,11 @@
     var angka = 0
     $('#tambah-input').click(function(){
         ++angka
-        list.append(" <tr>\
+        list.append(" <tr class='baris-data'>\
             <td><input type='number' placeholder='Stok Real' class='span1' name='angka["+angka+"][real]'></td> \
             <td class='hidden'><input type='number' placeholder='ID Obat' class='span1' name='angka["+angka+"][id]'></td> \
-            <td><input name='angka["+angka+"][nama]' type='text' autocomplete='off' list='list-data' class='typeahead span1 caribarang' id='caribarang' placeholder='Nama Obat'> </td>\
-            <td><input type='number' placeholder='Harga Beli' class='span1 hb' name='angka["+angka+"][harga_beli]'></td> \
+            <td><input name='angka["+angka+"][nama]' type='text' autocomplete='off' list='list-data' class='typeahead span1 caribarang' placeholder='Nama Obat'> </td>\
+            <td><input type='number' placeholder='Harga Beli' class='span1 harga-beli' name='angka["+angka+"][harga_beli]'></td> \
             <td><input type='number' placeholder='Stok' class='span1' name='angka["+angka+"][stok]'></td> \
             <td><input type='text' class='span1' name='angka["+angka+"][selisih]' placeholder='Selisih'></td> \
             <td><input type='text' class='span1' name='angka["+angka+"][lebih]' placeholder='Lebih'></td> \
@@ -137,6 +142,11 @@
             <td>&nbsp;</td> \
             </tr> \
         ")
+        $('#datalist-total').val($('#datalist-total').val()-2);
+        if($('#datalist-total').val() <= 0){
+            $('#tambah-input').prop('disabled', true)
+        }
+
     })
     // $('.caribarang').keyup(function(){
     //         $.ajax({
@@ -159,8 +169,9 @@
     //     console.log($barang)
     // })
 
-    $('#list-form').on('keyup','.caribarang',function(){
+    $(document).on('keyup','.caribarang',function(){
         var barang = $(this).val()
+        var baris_b = $(this).parents('.baris-data');
         $.ajax({
             url:"{{ route ('cari') }}",
             dataType:'JSON',
@@ -169,7 +180,9 @@
             success:function(data){
                 $.each(data, function(index, obj){
                     // alert(obj.nama)
-                    console.log(obj.name)
+                    console.log(obj.nama)
+                    $('#list-data option[value="'+barang+'"]').prop('disabled',true);
+                    baris_b.find('.harga-beli').val(obj.harga_beli)
                 })
             },
             error:function(thrownError,ajaxOption,xhr){
