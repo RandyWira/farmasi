@@ -16,14 +16,27 @@ class OpnameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index()
+    // {
+    //     $barang = Barang::orderBy('nama', 'ASC')->get();
+    //     $letak = Letak::orderBy('id_letak', 'ASC')->get();
+    //     $total_barang = Barang::orderBy('nama', 'ASC')->count();
+    //     return view('admin.opname.index', compact('barang', 'letak', 'total_barang'));
+    // }
+
+    //tlong jan di hapus
     public function index()
     {
-        $barang = Barang::orderBy('nama', 'ASC')->get();
+        $barang = Barang::orderBy('nama', 'ASC')->with('jenis', 'golongan')->get();
+        //relasi
+        // $barang = Barang::orderBy('nama', 'ASC')->with('jenis', 'golongan', '')->take(2)->get();
+        // limit
+        // dd($barang);
         $letak = Letak::orderBy('id_letak', 'ASC')->get();
         $total_barang = Barang::orderBy('nama', 'ASC')->count();
         return view('admin.opname.index', compact('barang', 'letak', 'total_barang'));
+        // return view('admin.opname.index', ['barang' => $barang, 'kampret' => $letak]);
     }
-
     public function loaddata(Request $request)
     {
         // if ($request->has('q')) {
@@ -32,7 +45,8 @@ class OpnameController extends Controller
         //     return response()->json($data);
         // }
         $cari = $request->input('cari');
-        $data = DB::table('barang')->where('nama', 'LIKE', "%{$cari}%")->get();
+        $data['a'] = DB::table('barang')->where('nama', 'LIKE', "%{$cari}%")->get();
+        $data['b'] = 'dd';
         return response()->json($data);
     }
 
@@ -59,14 +73,14 @@ class OpnameController extends Controller
             'angka.*.real'=>'required'
         ]);
         foreach ($request->angka as $key => $value) {
-            print_r($value);
+            // print_r($value);
             // $data = new Opname;
             // $data->stok = $request->value;
             // $data->save();
             // Stokgudang::create($value);
             
         }
-        die();
+        // die();
         
         return redirect()->route('opname.index');
         
