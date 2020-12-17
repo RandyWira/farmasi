@@ -19,6 +19,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/logout', function () {
+    Auth::logout();
+    return response()->redirectTo('/login');
+});
 // Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/jenis', 'JenisController@index')->name('jenis');

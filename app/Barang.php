@@ -17,17 +17,27 @@ class Barang extends Model
         'harga_langganan',
         'harga_umum',
         'stok_minimal',
-        'expire'
+        'expire', 
+        'id_jenis',
+        'id_golongan',
+        'id_kategori',
+        'id_satuan'
     ];
+
+    // public function jenis()
+    // {
+    //     return $this->belongsTo(Jenis::class, 'id_jenis');
+    // }
 
     public function jenis()
     {
-        return $this->belongsTo(Jenis::class, 'id_jenis');
+    
+        return $this->hasOne('App\Jenis', 'id_jenis', 'id_jenis');
     }
 
     public function golongan()
     {
-        return $this->belongsTo(Golonganbarang::class, 'id_golongan');
+        return $this->hasOne(Golongan::class, 'id', 'id_golongan');
     }
 
     public function kategori()
