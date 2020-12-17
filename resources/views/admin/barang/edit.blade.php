@@ -83,7 +83,7 @@
                                 <div class="controls">
                                     <select name="id_golongan" id="id_golongan" class="span6">
                                         @foreach ($golongan as $gol)
-                                        <option value={{ $gol->id_golongan }}>{{ $gol->nama }}</option>    
+                                        <option value={{ $gol->id }}>{{ $gol->golongan }}</option>    
                                         @endforeach
                                     </select>
                                 </div>
@@ -99,21 +99,21 @@
                             <div class="control-group">
                                 <label for="harga_grosir" class="control-label">Harga Jual Grosir</label>
                                 <div class="controls">
-                                    <input type="number" class="span2" name="harga_grosir" id="harga_grosir" value="{{ $barang->harga_grosir }}">
+                                    <input type="number" class="span2" name="harga_grosir" id="harga_grosir" value="{{ $barang->harga_grosir }}" readonly>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <label for="harga_langganan" class="control-label">Harga Jual Langganan</label>
                                 <div class="controls">
-                                    <input type="number" class="span2" name="harga_langganan" id="harga_langganan" value="{{ $barang->harga_langganan }}">
+                                    <input type="number" class="span2" name="harga_langganan" id="harga_langganan" value="{{ $barang->harga_langganan }}" readonly>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <label for="harga_umum" class="control-label">Harga Jual Umum</label>
                                 <div class="controls">
-                                    <input type="number" class="span6" name="harga_umum" id="harga_umum" value="{{ $barang->harga_umum }}">
+                                    <input type="number" class="span6" name="harga_umum" id="harga_umum" value="{{ $barang->harga_umum }}" readonly>
                                 </div>
                             </div>
 

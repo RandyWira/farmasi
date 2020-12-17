@@ -112,7 +112,7 @@ class BarangController extends Controller
     {
         $jenis = Jenis::orderBy('nama', 'ASC')->pluck('nama', 'id_jenis');
         $set_persentase_jual = Setpersentasejual::orderBy('id_persen', 'DESC')->limit(1)->get();
-        $golongan = Golonganbarang::orderBy('nama', 'ASC')->get();
+        $golongan = Golongan::orderBy('golongan', 'ASC')->get();
         $kategori = Kategori::orderBy('nama', 'ASC')->get();
         // $letak = Letak::orderBy('letak', 'ASC')->get();
         $satuan = Satuan::orderBy('satuan', 'ASC')->get();
@@ -128,26 +128,42 @@ class BarangController extends Controller
      */
     public function update(Request $request, Barang $barang)
     {
-        $this->validate($request, [
-            'nama' => 'required',
-            "harga_modal" => 'required',
-            "stok_minimal" => 'required',
-            "expire" => 'required'
-        ]);
+        // $this->validate($request, [
+        //     'nama' => 'required',
+        //     "harga_modal" => 'required',
+        //     "stok_minimal" => 'required',
+        //     "expire" => 'required'
+        // ]);
+        
+        // $barang->update([
+        //     'nama'              => $request->nama,
+        //     'stok_minimal'      => $request->stok_minimal,
+        //     'harga_beli'        => $request->harga_modal,
+        //     'harga_grosir'      => $request->harga_grosir,
+        //     'harga_langganan'   => $request->harga_langganan,
+        //     'harga_umum'        => $request->harga_umum,
+        //     'expire'            => $request->expire,
+        //     'id_jenis'          => $request->id_jenis,
+        //     'id_golongan'       => $request->id_golongan,
+        //     'id_kategori'       => $request->id_kategori,
+        //     'id_satuan'         => $request->id_satuan
+        // ]);
 
-        $barang->update([
-            'nama'              => $request->nama,
-            'stok_minimal'      => $request->stok_minimal,
-            'harga_beli'        => $request->harga_modal,
-            'harga_grosir'      => $request->harga_grosir,
-            'harga_langganan'   => $request->harga_langganan,
-            'harga_umum'        => $request->harga_umum,
-            'expire'            => $request->expire,
-            'id_jenis'          => $request->id_jenis,
-            'id_golongan'       => $request->id_golongan,
-            'id_kategori'       => $request->id_kategori,
-            'id_satuan'         => $request->id_satuan
-        ]);
+        $barang->nama = $request->nama;
+        $barang->stok_minimal = $request->stok_minimal;
+        $barang->harga_beli = $request->harga_modal;
+        $barang->harga_grosir = $request->harga_grosir;
+        $barang->harga_langganan = $request->harga_langganan;
+        $barang->harga_umum = $request->harga_umum;
+        $barang->expire = $request->expire;
+        $barang->id_jenis = $request->id_jenis;
+        $barang->id_golongan = $request->id_golongan;
+        $barang->id_kategori = $request->id_kategori;
+        $barang->id_satuan = $request->id_satuan;
+        $barang->save();
+
+        // echo $query;
+        // die();
 
         Session::flash('message', 'Data Barang Berhasil diubah');
         return redirect()->route('barang.index');
