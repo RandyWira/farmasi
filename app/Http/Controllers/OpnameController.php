@@ -45,8 +45,12 @@ class OpnameController extends Controller
         //     return response()->json($data);
         // }
         $cari = $request->input('cari');
-        $data['a'] = DB::table('barang')->where('nama', 'LIKE', "%{$cari}%")->get();
-        $data['b'] = 'dd';
+        // $data['a'] = DB::table('barang')->where('nama', 'LIKE'  , "%{$cari}%")->get();
+        
+        $data_id = DB::select('select * from barang where nama = ?', [$cari]);
+        $data['a'] = DB::select('select * from barang where nama = ?', [$cari]);
+        $data['riwayat'] = DB::select('select stok_akhir from riwayat where barang_id = ? order by DESC', [$data_id->id]);
+        // $data['b'] = 'dd';
         return response()->json($data);
     }
 
@@ -69,16 +73,28 @@ class OpnameController extends Controller
      */
     public function store(Request $request)
     {
+        $cek_stok_akhir = $request->stok;
+        
         $request->validate([
             'angka.*.real'=>'required'
-        ]);
+            ]);
         foreach ($request->angka as $key => $value) {
-            // print_r($value);
+                $id_barang = $value['id'];
+                // dd($id_barang);
+                // $query_cek = DB::select('select barang_id, stok_akhir from riwayat where barang_id = ?', [$id_barang]);
+
+                // if(count($query_cek) === 0) {
+                //     echo('Data Obat Belum Ada');
+                // } else {
+                //     echo('data sudah ada');
+                // }
+
+                // die();
+            print_r($value); die();
             // $data = new Opname;
             // $data->stok = $request->value;
             // $data->save();
             // Stokgudang::create($value);
-            
         }
         // die();
         

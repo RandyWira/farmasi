@@ -61,7 +61,7 @@
                                     <td>
                                         <input type="number" placeholder="Stok Real" class="span1 real_stok" name="angka[0][real]">
                                     </td>
-                                        <input type="hidden" placeholder="ID Obat" class="span1 id-barang" name="angka[0][id]">
+                                        <td class="hidden"><input type="text" placeholder="ID Obat" class="span1 id-barang" name="angka[0][id]"></td>
                                     <td width="20%">
                                         {{-- {{ $barang->nama }} --}}
                                         <!-- {{-- <input type="text" placeholder="Nama Obat" class="span1 " name="angka[0][nama]"> --}} -->
@@ -137,8 +137,8 @@ $('.real_stok').attr('readonly','true')
             <td width='20%'><input name='angka["+angka+"][nama]' type='text' autocomplete='off' list='list-data' class='typeahead span1 caribarang' placeholder='Nama Obat'> </td>\
             <td width='5%'>\
                 <button type='button' class='btn btn-small btn-default clear-barang' title='Hapus Nama Barang'><i class='icon icon-refresh' style='font-size:11px'></i></button>\
-            </td>\
-            <input type='hidden' placeholder='ID Obat' class='span1 id-barang' name='angka["+angka+"][id]'>\
+            </td> <td class='hidden'>\
+            <input type='hidden' placeholder='ID Obat' class='span1 id-barang' name='angka["+angka+"][id]'> </td>\
             <td><input type='number' placeholder='Harga Beli' class='span1 harga-beli' name='angka["+angka+"][harga_beli]'></td> \
             <td><input type='number' placeholder='Stok' class='span1 stok' name='angka["+angka+"][stok]'></td> \
             <td><input type='text' class='span1 harga-selisih' name='angka["+angka+"][selisih]' placeholder='Selisih'></td> \
@@ -192,17 +192,20 @@ $('.real_stok').attr('readonly','true')
             type:'GET',
             data:"&cari="+barang,
             success:function(data){
-                $.each(data.a, function(index, obj){
-                    // alert(obj.nama)
-                    if(baris_b.find('.caribarang').val() == ''){
-                        $('#list-data option[value="'+barang+'"]').removeAttr('disabled');
-                    }else{
-                        $('#list-data option[value="'+barang+'"]').prop('disabled',true);
-                    }
-                    baris_b.find('.harga-beli').val(obj.harga_beli)
-                    baris_b.find('.stok').val(obj.stok_minimal)
-                    baris_b.find('.id-barang').val(obj.id)
-                    baris_b.find('.real_stok').removeAttr('readonly')
+                // $.each(data.a, function(index, obj){
+                //     // alert(obj.id)
+                //     if(baris_b.find('.caribarang').val() == ''){
+                //         $('#list-data option[value="'+barang+'"]').removeAttr('disabled');
+                //     }else{
+                //         $('#list-data option[value="'+barang+'"]').prop('disabled',true);
+                //     }
+                //     baris_b.find('.harga-beli').val(obj.harga_beli)
+                //     baris_b.find('.stok').val(obj.stok_minimal)
+                //     baris_b.find('.id-barang').val(obj.id)
+                //     baris_b.find('.real_stok').removeAttr('readonly')
+                // })
+                $.each(data.riwayat, function(index, obj){
+                    console.log(obj.stok_akhir)
                 })
             },
             error:function(thrownError,ajaxOption,xhr){
