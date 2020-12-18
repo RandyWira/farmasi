@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Letak;
+use App\Riwayat;
 use App\Barang;
 use App\Opname;
 use App\Stokgudang;
@@ -27,6 +30,15 @@ class OpnameController extends Controller
     //tlong jan di hapus
     public function index()
     {
+
+        // $i = array(1,2);
+        // $x = count($i);
+
+        // foreach($i as $a ){
+        //     print_r($a++); 
+        //     echo "<br>";
+        // }
+        // die();
         $barang = Barang::orderBy('nama', 'ASC')->with('jenis', 'golongan')->get();
         //relasi
         // $barang = Barang::orderBy('nama', 'ASC')->with('jenis', 'golongan', '')->take(2)->get();
@@ -44,13 +56,22 @@ class OpnameController extends Controller
         //     $data = DB::table('barang')->select('id', 'nama', 'harga_beli')->where('nama', 'LIKE', '%$cari%')->get();
         //     return response()->json($data);
         // }
+
         $cari = $request->input('cari');
         // $data['a'] = DB::table('barang')->where('nama', 'LIKE'  , "%{$cari}%")->get();
-        
-        $data_id = DB::select('select * from barang where nama = ?', [$cari]);
-        $data['a'] = DB::select('select * from barang where nama = ?', [$cari]);
-        $data['riwayat'] = DB::select('select stok_akhir from riwayat where barang_id = ? order by DESC', [$data_id->id]);
-        // $data['b'] = 'dd';
+        $data_id = DB::table('barang')->where('nama',$cari)->first();
+        $cari_riwayat = DB::table('riwayat')->where('barang_id',$data_id->id)->get();
+        // dd(count($cari_riwayat));
+        if(count($cari_riwayat) === 0){
+            // $data = DB::table('barang')->where('nama',$cari)->get();
+            $data = DB::select('select *, stok_minimal as stok from barang where id = ? limit 1', [$data_id->id]);
+        }else{
+            $data = DB::select('select barang.*,riwayat.stok_akhir as stok,riwayat.barang_id from barang join riwayat on barang.id = riwayat.barang_id where riwayat.barang_id = ? order by riwayat.barang_id DESC limit 1', [$data_id->id]);
+            // $data['b'] = DB::table('riwayat')->where('barang_id',$data_id->id)->with('barang')->limit(1)->orderBy('barang_id','DESC')->first();
+        }
+
+
+        // $data['riwayat'] = DB::select('select * from riwayat where barang_id = ? order by DESC', [$data_id->id]);
         return response()->json($data);
     }
 
@@ -90,12 +111,27 @@ class OpnameController extends Controller
                 // }
 
                 // die();
-            print_r($value); die();
+            // print_r($id_barang); 
+                // Riwayat::table('riwayat')->([
+                //     ''=>
+                // ]);
             // $data = new Opname;
             // $data->stok = $request->value;
             // $data->save();
             // Stokgudang::create($value);
+            DB::table('riwayat')->insert([
+                'barang_id'=>$value['id'],
+                'stok_awal'=>$value['stok'],
+                'stok_akhir'=>$value['real'],
+                'masuk'=>$value['real'],
+                'keluar'=>0,
+                'bagian'=>'Opname',
+                'aksi'=>'Simpan',
+                'letak_id'=>$request->id_letak,
+                'user_id'=>Auth::id(),
+            ]);
         }
+        // die();
         // die();
         
         return redirect()->route('opname.index');

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Jenis;
 use App\Kategori;
+use App\Riwayat;
 use App\Golonganbarang;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,7 @@ class Barang extends Model
         'harga_langganan',
         'harga_umum',
         'stok_minimal',
+        'stok_akhir',
         'expire', 
         'id_jenis',
         'id_golongan',
@@ -48,5 +50,8 @@ class Barang extends Model
     public function satuan()
     {
         return $this->belongsTo(Satuan::class, 'id_satuan');
+    }
+    public function riwayat(){
+        return $this->hasMany(Riwayat::class);
     }
 }

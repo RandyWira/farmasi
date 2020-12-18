@@ -200,13 +200,30 @@ $('.real_stok').attr('readonly','true')
                 //         $('#list-data option[value="'+barang+'"]').prop('disabled',true);
                 //     }
                 //     baris_b.find('.harga-beli').val(obj.harga_beli)
-                //     baris_b.find('.stok').val(obj.stok_minimal)
+                //     if(obj.stok_akhir){
+                //         baris_b.find('.stok').val(obj.stok_akhir)
+                //     }else{
+                //         baris_b.find('.stok').val(obj.stok_minimal)
+                //     }
+                //     // baris_b.find('.stok').val(obj.stok_minimal)
                 //     baris_b.find('.id-barang').val(obj.id)
                 //     baris_b.find('.real_stok').removeAttr('readonly')
                 // })
-                $.each(data.riwayat, function(index, obj){
-                    console.log(obj.stok_akhir)
+                $.each(data, function(index, obj){
+                    if(baris_b.find('.caribarang').val() == ''){
+                            $('#list-data option[value="'+barang+'"]').removeAttr('disabled');
+                    }else{
+                            $('#list-data option[value="'+barang+'"]').prop('disabled',true);
+                    }
+                    baris_b.find('.harga-beli').val(obj.harga_beli)
+                    baris_b.find('.stok').val(obj.stok)
+                    // baris_b.find('.stok').val(obj.stok_minimal)
+                    baris_b.find('.id-barang').val(obj.id)
+                    baris_b.find('.real_stok').removeAttr('readonly')
                 })
+                // $.each(data.riwayat, function(index, obj){
+                //     console.log(obj.stok_akhir)
+                // })
             },
             error:function(thrownError,ajaxOption,xhr){
                 alert('error cok ')
@@ -223,7 +240,7 @@ $('.real_stok').attr('readonly','true')
             type:'GET',
             data:"&cari="+barang,
             success:function(data){
-                $.each(data.a, function(index, obj){
+                $.each(data, function(index, obj){
                     // alert(obj.nama)
                     // console.log(obj.nama)
                     if(baris_b.find('.caribarang').val() == ''){
@@ -232,7 +249,7 @@ $('.real_stok').attr('readonly','true')
                         $('#list-data option[value="'+barang+'"]').prop('disabled',true);
                     }
                     baris_b.find('.harga-beli').val(obj.harga_beli)
-                    baris_b.find('.stok').val(obj.stok_minimal)
+                    baris_b.find('.stok').val(obj.stok_akhir)
                     baris_b.find('.id-barang').val(obj.id)
                     baris_b.find('.real_stok').removeAttr('readonly')
                 })
