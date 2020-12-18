@@ -45,7 +45,7 @@ class OpnameController extends Controller
         //     return response()->json($data);
         // }
         $cari = $request->input('cari');
-        $data['a'] = DB::table('barang')->where('nama', 'LIKE', "%{$cari}%")->get();
+        $data['a'] = DB::table('barang')->select('*')->where('nama', "%{$cari}%")->get();
         $data['b'] = 'dd';
         return response()->json($data);
     }
