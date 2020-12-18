@@ -45,12 +45,17 @@ class OpnameController extends Controller
         //     return response()->json($data);
         // }
         $cari = $request->input('cari');
+<<<<<<< HEAD
         // $data['a'] = DB::table('barang')->where('nama', 'LIKE'  , "%{$cari}%")->get();
         
         $data_id = DB::select('select * from barang where nama = ?', [$cari]);
         $data['a'] = DB::select('select * from barang where nama = ?', [$cari]);
         $data['riwayat'] = DB::select('select stok_akhir from riwayat where barang_id = ? order by DESC', [$data_id->id]);
         // $data['b'] = 'dd';
+=======
+        $data['a'] = DB::table('barang')->select('*')->where('nama', "%{$cari}%")->get();
+        $data['b'] = 'dd';
+>>>>>>> naufal
         return response()->json($data);
     }
 
