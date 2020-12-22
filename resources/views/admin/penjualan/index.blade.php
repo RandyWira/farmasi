@@ -39,26 +39,24 @@
                                     <label for="cara-bayar">Cara bayar</label>
                                     <p>
                                         <label>
-                                          <input name="cara_bayar" type="radio" checked />
+                                          <input name="cara_bayar" type="radio" checked value="Tunai"/>
                                           <span>Tunai</span>
                                         </label>
                                       </p>
                                       <p>
                                         <label>
-                                          <input name="cara_bayar" type="radio" />
+                                          <input name="cara_bayar" type="radio" value="Kredit"/>
                                           <span>Kredit</span>
                                         </label>
                                       </p>
                                 </div>
                                 <div class="control-group">
-                                    <label for="tunai">Bayar</label>
-                                    <input type="number" name="tunai" id="tunai" class="span6">
+                                    <label for="cicilan">Dibayarkan</label>
+                                    <input type="number" name="dibayarkan" id="dibayarkan" class="span6" required>
                                 </div>
                                 <div class="control-group">
-                                    <label for="kredit">Bayar</label>
-                                    <input type="number" name="kredit" id="kredit" class="span6">
-                                    <label for="sisa_kredit">Sisa Cicilan</label>
-                                    <input type="number" name="sisa_kredit" id="sisa_kredit" class="span6">
+                                    <label for="cicilan">Cicilan</label>
+                                    <input type="number" name="cicilan" id="cicilan" class="span6" required>
                                 </div>
                             </div>
                         </div>
@@ -74,10 +72,6 @@
                                     <label for="" class="red lighten-4">Tagihan + PPN</label>
                                     <input type="number" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
                                 </div>
-                                {{-- <div class="control-group">
-                                    <label for="" class="blue lighten-2">Laba Bersih</label>
-                                    <input type="number" name="laba" class="span1 laba" placeholder="laba" readonly>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -131,7 +125,7 @@
                                             </td>
                                             <td>
                                                 <label for="" class="teal lighten-3">HPP (Rp)</label>
-                                                <input type="number" name="jual[0][hpp]" class="span1 hpp" placeholder="hpp">
+                                                <input type="number" name="jual[0][hpp]" class="span1 hpp" placeholder="hpp" readonly>
                                             </td>
                                             <td>
                                                 <label for="" class="teal lighten-3">Total (Rp)</label>
@@ -208,7 +202,7 @@
                                 <input type="number" name="jual['+jual+'][diskon]" class="span1 diskon" placeholder="Diskon"> \
                             </td> \
                             <td> \
-                                <input type="number" name="jual['+jual+'][hpp]" class="span1 hpp" placeholder="hpp"> \
+                                <input type="number" name="jual['+jual+'][hpp]" class="span1 hpp" placeholder="hpp" readonly> \
                             </td> \
                             <td> \
                                 <input type="number" name="jual['+jual+'][total]" class="span1 total" placeholder="Total" readonly> \

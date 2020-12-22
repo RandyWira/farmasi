@@ -15,6 +15,7 @@
                                 <th>HPP</th>
                                 <th>Tagihan</th>
                                 <th>Laba</th>
+                                <th>Cara Bayar</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -28,6 +29,7 @@
                                 <td>@currency($jual->hpp)</td>
                                 <td>@currency($jual->tagihan_jual)</td>
                                 <td>@currency($jual->tagihan_jual - $jual->hpp)</td>
+                                <td>{{ $jual->cara_bayar }}</td>
                                 <td>
                                     <a href="#" class="icon-print"> Cetak Nota</a>
                                 </td>

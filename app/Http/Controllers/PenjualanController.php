@@ -73,15 +73,16 @@ class PenjualanController extends Controller
         }
 
         DB::table('penjualan')->insert([
-            'nota_jual' => $request->nota_jual,
-            'nama_pembeli' => $request->pembeli,
-            'letak_id' => $request->id_letak,
-            'nama_pembeli' => $request->pembeli,
-            'total_jual' => $request->total_keseluruhan,
-            'ppn_jual' => $request->harga_ppn,
-            'tagihan_jual' => $request->tagihan,
-            'created_at' => $request->tanggal,
-            'hpp' => $request->total_hpp
+            'nota_jual'     => $request->nota_jual,
+            'nama_pembeli'  => $request->pembeli,
+            'letak_id'      => $request->id_letak,
+            'nama_pembeli'  => $request->pembeli,
+            'total_jual'    => $request->total_keseluruhan,
+            'ppn_jual'      => $request->harga_ppn,
+            'tagihan_jual'  => $request->tagihan,
+            'created_at'    => $request->tanggal,
+            'hpp'           => $request->total_hpp,
+            'cara_bayar'    => $request->cara_bayar ? 1 : 0
         ]);
         
         DB::table('riwayat')->insert([
