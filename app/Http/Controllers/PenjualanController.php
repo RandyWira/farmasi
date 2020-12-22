@@ -82,7 +82,10 @@ class PenjualanController extends Controller
             'tagihan_jual'  => $request->tagihan,
             'created_at'    => $request->tanggal,
             'hpp'           => $request->total_hpp,
-            'cara_bayar'    => $request->cara_bayar ? 1 : 0
+            'bayar'         => $request->bayar,
+            'kembalian'     => $request->kembalian
+            // 'cara_bayar'    => $request->cara_bayar ? 1 : 0
+
         ]);
         
         DB::table('riwayat')->insert([
@@ -95,7 +98,7 @@ class PenjualanController extends Controller
             'aksi' => 'Simpan'
         ]);
 
-        return redirect()->route('penjualan.index');
+        return redirect()->route('report');
     }
 
     /**
@@ -162,4 +165,19 @@ class PenjualanController extends Controller
         // print_r($penjualan->nota_jual); die();
         return view('admin.penjualan.detail', compact('penjualan', 'detail_jual'));
     }
+
+    public function cetak_nota(Penjualan $penjualan)
+    {
+        $today = Carbon::now()->isoFormat('d MMMM Y');
+        $detail_jual = Detailpenjualan::orderBy('nota_jual', 'ASC')
+                            ->join('penjualan', 'penjualan.nota_jual', '=', 'detail_jual.nota_jual')
+                            ->join('barang', 'barang.id', '=', 'detail_jual.barang_id')
+                            ->select('detail_jual.nota_jual', 'barang.nama', 'barang.harga_beli', 'detail_jual.jml_jual', 'detail_jual.harga_jual', 'detail_jual.subtotal', 'detail_jual.diskon', 'detail_jual.total_jual')
+                            ->where('detail_jual.nota_jual', $penjualan->nota_jual)
+                            ->get();
+        $ppn = DB::table('set_ppn_jual')->first();
+        $judul = "Nota Penjualan ".$penjualan->nota_jual;
+        return view('admin.penjualan.nota', compact('penjualan','judul', 'detail_jual','ppn','today'));
+    }
+
 }

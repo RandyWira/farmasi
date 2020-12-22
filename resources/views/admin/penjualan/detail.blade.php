@@ -4,9 +4,36 @@
     <div class="row">
         <div class="span12">
             <div class="card">
-                <div class="card-header">
-                    Nama : {{ $penjualan->nama_pembeli }} <br>
-                    No. Nota : {{ $penjualan->nota_jual }} <br>
+                <div class="card-header" style="padding: 15px">
+                    <table border="0">
+                        <tr>
+                            <td>Nama</td>
+                            <td>{{ $penjualan->nama_pembeli }}</td>
+                            <td colspan='4'>
+                                <font class="pull-right">
+                                    <a href="{{ route('penjualan.cetak_nota', $penjualan->nota_jual) }}" target="_blank" class="btn btn-default" title="Cetak"><i class="icon-print" style="font-size: 20px;"></i></a>
+                                </font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>No. Nota</td>
+                            <td>{{ $penjualan->nota_jual }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal Transaksi</td>
+                            <td>{{ $penjualan->created_at->isoFormat('d MMMM Y')}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    
+                     
                 </div>
                 <div class="card-content">
                     <table class="responsive-table">

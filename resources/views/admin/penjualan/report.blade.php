@@ -31,7 +31,7 @@
                                 <td>@currency($jual->tagihan_jual - $jual->hpp)</td>
                                 <td>{{ $jual->cara_bayar }}</td>
                                 <td>
-                                    <a href="#" class="icon-print"> Cetak Nota</a>
+                                    <a href="{{ route('penjualan.cetak_nota', $jual->nota_jual) }}" target="_blank" class="icon-print"> Cetak Nota</a>
                                 </td>
                             </tr>
                             @endforeach

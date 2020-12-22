@@ -36,27 +36,12 @@
                         <div class="widget">
                             <div class="widget-content">
                                 <div class="control-group">
-                                    <label for="cara-bayar">Cara bayar</label>
-                                    <p>
-                                        <label>
-                                          <input name="cara_bayar" type="radio" checked value="Tunai"/>
-                                          <span>Tunai</span>
-                                        </label>
-                                      </p>
-                                      <p>
-                                        <label>
-                                          <input name="cara_bayar" type="radio" value="Kredit"/>
-                                          <span>Kredit</span>
-                                        </label>
-                                      </p>
+                                    <label for="" class="red lighten-4">Total HPP</label>
+                                    <input type="number" name="total_hpp" id="total_hpp" class="span1 total_hpp" readonly>
                                 </div>
                                 <div class="control-group">
-                                    <label for="cicilan">Dibayarkan</label>
-                                    <input type="number" name="dibayarkan" id="dibayarkan" class="span6" required>
-                                </div>
-                                <div class="control-group">
-                                    <label for="cicilan">Cicilan</label>
-                                    <input type="number" name="cicilan" id="cicilan" class="span6" required>
+                                    <label for="" class="red lighten-4">Tagihan + PPN</label>
+                                    <input type="number" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
                                 </div>
                             </div>
                         </div>
@@ -64,13 +49,28 @@
                     <div class="span4">
                         <div class="widget">
                             <div class="widget-content">
+                                {{-- <div class="control-group">
+                                    <label for="cara-bayar">Cara bayar</label>
+                                    <p>
+                                        <label>
+                                          <input name="cara_bayar" type="radio" checked/>
+                                          <span>Tunai</span>
+                                        </label>
+                                      </p>
+                                      <p>
+                                        <label>
+                                          <input name="cara_bayar" type="radio"/>
+                                          <span>Kredit</span>
+                                        </label>
+                                      </p>
+                                </div> --}}
                                 <div class="control-group">
-                                    <label for="" class="red lighten-4">Total HPP</label>
-                                    <input type="number" name="total_hpp" id="total_hpp" class="span1 total_hpp" readonly>
+                                    <label for="bayar">Dibayarkan</label>
+                                    <input type="number" name="bayar" id="bayar" class="span6" required>
                                 </div>
                                 <div class="control-group">
-                                    <label for="" class="red lighten-4">Tagihan + PPN</label>
-                                    <input type="number" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
+                                    <label for="kembalian">Kembalian</label>
+                                    <input type="number" name="kembalian" id="kembalian" class="span6" required>
                                 </div>
                             </div>
                         </div>
@@ -276,7 +276,7 @@
             total.val(subtotal.val()-diskon)
             total_hpp()
             mencari_total()
-            laba()
+            // laba()
         })
 
         $(document).on('keyup', '.diskon', function(){
@@ -339,6 +339,16 @@
             total_hpp.val(nilai)
 
         }
+
+        // $(document).on('change','#bayar',function(){
+        //     var total = parseInt($('#bayar').val())-parseInt($('.tagihan').val());
+        //     $('#kembalian').val(total);
+        // })
+
+        $(document).on('keyup','#bayar',function(){
+            var total = parseInt($('#bayar').val())-parseInt($('.tagihan').val());
+            $('#kembalian').val(total);
+        })
 
         // function laba() {
         //     var laba = $('.laba')
