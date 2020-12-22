@@ -13,13 +13,13 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('js/semantic.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/semantic.min.js') }}"></script> --}}
     <script src="{{ asset('js/materialize.min.js') }}"></script> 
     <script src="{{ asset('js/jquery-1.7.2.min.js') }}"></script>
     <script src="{{ asset('js/excanvas.min.js') }}"></script> 
     <script src="{{ asset('js/chart.min.js') }}" type="text/javascript"></script> 
     <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script language="javascript" type="text/javascript" src="{{ asset('js/full-calendar/fullcalendar.min.js') }}"></script>
+    {{-- <script language="javascript" type="text/javascript" src="{{ asset('js/full-calendar/fullcalendar.min.js') }}"></script> --}}
     <script src="{{ asset('js/base.js') }}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -56,6 +56,10 @@
 
         .body350 {
             height:350px;
+        }
+
+        .body500 {
+            height:500px;
         }
 
         thead, tbody tr {
@@ -117,15 +121,22 @@
                         <a href="{{ route('home.index') }}"><i class="icon-dashboard"></i><span>Dashboard</span></a>
                     </li>
                     <li>
+                        <a href="{{ route('penjualan.index') }}"><i class="icon-shopping-cart"></i><span>Penjualan</span></a>
+                    </li>
+                    <li>
                         <a href="{{ route('opname.index') }}"><i class="icon-briefcase"></i><span>Stok Opname</span></a>
                     </li>
                     <li>
                         <a href="{{ route('riwayat.index') }}"><i class="icon-time"></i><span>Riwayat Obat</span> </a></li>
                     <li>
                         <a href="{{ route('stok.index') }}"><i class="icon-bar-chart"></i><span>Stok per Lokasi</span> </a> </li>
-                    <li>
-                        <a href="#"><i class="icon-code"></i><span>Shortcodes</span></a>
-                    </li>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-file"></i><span>Laporan</span> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('report') }}">Laporan Data Penjualan</a></li>
+                                <li><a href="#">Laporan Data Pembelian</a></li>
+                            </ul>
+                        </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Master Data Obat BHP</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">

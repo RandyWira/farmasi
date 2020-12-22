@@ -49,4 +49,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('cari', 'OpnameController@loaddata')->name('cari');
     Route::resource('riwayat', 'RiwayatController');
     Route::resource('stok', 'StokperlokasiController');
+    Route::resource('penjualan', 'PenjualanController');
+
+    Route::get('report', 'PenjualanController@report')->name('report');
+    Route::get('/penjualan/{penjualan}/detail', 'PenjualanController@detail')->name('penjualan.detail');
 });

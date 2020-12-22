@@ -98,7 +98,7 @@ class OpnameController extends Controller
         
         $request->validate([
             'angka.*.real'=>'required'
-            ]);
+        ]);
         foreach ($request->angka as $key => $value) {
                 $id_barang = $value['id'];
                 // dd($id_barang);
@@ -131,8 +131,6 @@ class OpnameController extends Controller
                 'user_id'=>Auth::id(),
             ]);
         }
-        // die();
-        // die();
         
         return redirect()->route('opname.index');
         
