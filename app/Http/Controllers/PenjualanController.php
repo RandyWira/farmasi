@@ -75,6 +75,19 @@ class PenjualanController extends Controller
                 'diskon' => $value['diskon'],
                 'total_jual' => $value['total'],
             ]);
+            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->first();
+            DB::table('riwayat')->insert([
+                'barang_id' => $value['id'],
+                'stok_awal' => $cari_stok->stok,
+                'stok_akhir' => $cari_stok->stok-$value['qty'],
+                'masuk' => 0,
+                'keluar' => $value['qty'],
+                'bagian' => 'Penjualan',
+                'user_id'=>Auth::id(),
+                'letak_id' => $request->id_letak,
+                'aksi' => 'Simpan'
+            ]);
+            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok-$value['qty']]);
         }
 
         DB::table('penjualan')->insert([
@@ -93,15 +106,6 @@ class PenjualanController extends Controller
 
         ]);
         
-        DB::table('riwayat')->insert([
-            'barang_id' => $value['id'],
-            'masuk' => 0,
-            'keluar' => $value['qty'],
-            'bagian' => 'Penjualan',
-            'user_id'=>Auth::id(),
-            'letak_id' => $request->id_letak,
-            'aksi' => 'Simpan'
-        ]);
 
         Session::flash('message', 'Data Penjualan berhasil ditambahkan');
         return redirect()->route('report');

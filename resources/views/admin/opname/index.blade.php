@@ -226,7 +226,7 @@ $('.real_stok').attr('readonly','true')
                 // })
             },
             error:function(thrownError,ajaxOption,xhr){
-                alert('error cok ')
+                console.log('error cok ')
             }
         })
     })

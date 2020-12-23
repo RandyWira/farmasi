@@ -134,6 +134,9 @@
                         <a href="{{ route('penjualan.index') }}"><i class="icon-shopping-cart"></i><span>Penjualan</span></a>
                     </li>
                     <li>
+                        <a href="{{ route('pembelian.index') }}"><i class="icon-money"></i><span>Pembelian</span></a>
+                    </li>
+                    <li>
                         <a href="{{ route('riwayat.index') }}"><i class="icon-time"></i><span>Riwayat Obat</span> </a></li>
                     <li><a href="{{ route('stok.index') }}"><i class="icon-bar-chart"></i><span>Stok per Lokasi</span> </a> </li>
                     <li class="dropdown">

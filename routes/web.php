@@ -50,6 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('riwayat', 'RiwayatController');
     Route::resource('stok', 'StokperlokasiController');
     Route::resource('penjualan', 'PenjualanController');
+    Route::resource('pembelian', 'PembelianController');
 
     Route::get('report', 'PenjualanController@report')->name('report');
     Route::get('/penjualan/{penjualan}/detail', 'PenjualanController@detail')->name('penjualan.detail');

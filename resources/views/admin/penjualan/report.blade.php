@@ -33,7 +33,7 @@
                             @foreach ($report_jual as $jual)
                             <tr>
                                 <td><a href="{{ route('penjualan.detail', $jual->nota_jual) }}"> {{ $jual->nota_jual }}</a></td>
-                                <td>{{ $jual->created_at->isoFormat('dddd, D MMMM Y') }}</td>
+                                <td>{{ $jual->created_at}}</td>
                                 <td>@currency($jual->total_jual)</td>
                                 <td>@currency($jual->ppn_jual)</td>
                                 <td>@currency($jual->hpp)</td>

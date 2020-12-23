@@ -18,6 +18,8 @@ class Penjualan extends Model
         'tagihan_jual'  => 'float'
     ];
 
+    protected $dates = ['created_at'];
+
     protected $fillable = [
         'nama_pembeli',
         'letak_id',

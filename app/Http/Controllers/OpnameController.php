@@ -130,6 +130,7 @@ class OpnameController extends Controller
                 'letak_id'=>$request->id_letak,
                 'user_id'=>Auth::id(),
             ]);
+            DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$value['real']]);
         }
         
         return redirect()->route('opname.index');
