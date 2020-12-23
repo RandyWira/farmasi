@@ -121,22 +121,28 @@
                         <a href="{{ route('home.index') }}"><i class="icon-dashboard"></i><span>Dashboard</span></a>
                     </li>
                     <li>
+                        <a href="{{ route('opname.index') }}"><i class="icon-briefcase"></i><span>Stok Opname</span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-retweet"></i><span>Mutasi</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Mutasi Masuk</a></li>
+                            <li><a href="#">Mutasi Keluar</a></li>
+                        </ul>
+                    </li>   
+                    <li>
                         <a href="{{ route('penjualan.index') }}"><i class="icon-shopping-cart"></i><span>Penjualan</span></a>
                     </li>
                     <li>
-                        <a href="{{ route('opname.index') }}"><i class="icon-briefcase"></i><span>Stok Opname</span></a>
-                    </li>
-                    <li>
                         <a href="{{ route('riwayat.index') }}"><i class="icon-time"></i><span>Riwayat Obat</span> </a></li>
-                    <li>
-                        <a href="{{ route('stok.index') }}"><i class="icon-bar-chart"></i><span>Stok per Lokasi</span> </a> </li>
-                        <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-file"></i><span>Laporan</span> <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('report') }}">Laporan Data Penjualan</a></li>
-                                <li><a href="#">Laporan Data Pembelian</a></li>
-                            </ul>
-                        </li>
+                    <li><a href="{{ route('stok.index') }}"><i class="icon-bar-chart"></i><span>Stok per Lokasi</span> </a> </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-file"></i><span>Laporan</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('report') }}">Laporan Data Penjualan</a></li>
+                            <li><a href="#">Laporan Data Pembelian</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Master Data Obat BHP</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">

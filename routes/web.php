@@ -54,4 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('report', 'PenjualanController@report')->name('report');
     Route::get('/penjualan/{penjualan}/detail', 'PenjualanController@detail')->name('penjualan.detail');
     Route::get('/penjualan/{penjualan}/cetak', 'PenjualanController@cetak_nota')->name('penjualan.cetak_nota');
+
+    Route::resource('mutasi_masuk', 'MutasiMasukController');
+    Route::resource('mutasi_keluar', 'MutasiKeluarController');
 });

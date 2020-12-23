@@ -6,71 +6,60 @@
             <form action="#" method="POST" class="form-horizontal">
                 @csrf
                 <div class="row">
-                    <div class="span4">
+                    <div class="span12">
                         <div class="widget">
                             <div class="widget-content">
-                                <div class="control-group">
-                                    <label for="nota_jual">No. Nota</label>
-                                    <input type="text" name="nota_jual" id="nota_jual" placeholder="No. NOTA" class="span6" value="{{ $no_nota }}" readonly>
+                                <div class="span6">
+                                    <div class="widget">
+                                        <div class="widget-content">
+                                            <div class="control-group">
+                                                <label for="nota_jual" class="red lighten-4">No. Nota</label>
+                                                <input type="text" name="nota_jual" id="nota_jual" placeholder="No. NOTA" class="span6" value="{{ $no_nota }}" readonly>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="tanggal" class="red lighten-4">Tanggal</label>
+                                                <input type="date" name="tanggal" id="tanggal" class="span6">
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="pembeli"  class="red lighten-4">Nama Pembeli</label>
+                                                <input type="text" name="pembeli" id="pembeli" placeholder="Nama Pembeli" class="span6" required>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="lokasi_id" class="red lighten-4">Lokasi Stok</label>
+                                                <select name="id_letak" id="id_letak" class="span3">
+                                                    @foreach ($letak as $letak)
+                                                    <option value={{ $letak->id_letak }}>{{ $letak->letak }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="control-group">
-                                    <input type="date" name="tanggal" id="tanggal" class="span6">
-                                </div>
-                                <div class="control-group">
-                                    {{-- <label for="pembeli">Nama Pembeli</label> --}}
-                                    <input type="text" name="pembeli" id="pembeli" placeholder="Nama Pembeli" class="span6" required>
-                                </div>
-        
-                                <div class="control-group">
-                                    <label for="lokasi_id">Lokasi Stok</label>
-                                    <select name="id_letak" id="id_letak" class="span3">
-                                        @foreach ($letak as $letak)
-                                        <option value={{ $letak->id_letak }}>{{ $letak->letak }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span4">
-                        <div class="widget">
-                            <div class="widget-content">
-                                <div class="control-group">
-                                    <label for="" class="red lighten-4">Total HPP</label>
-                                    <input type="number" name="total_hpp" id="total_hpp" class="span1 total_hpp" readonly>
-                                </div>
-                                <div class="control-group">
-                                    <label for="" class="red lighten-4">Tagihan + PPN</label>
-                                    <input type="number" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span4">
-                        <div class="widget">
-                            <div class="widget-content">
-                                {{-- <div class="control-group">
-                                    <label for="cara-bayar">Cara bayar</label>
-                                    <p>
-                                        <label>
-                                          <input name="cara_bayar" type="radio" checked/>
-                                          <span>Tunai</span>
-                                        </label>
-                                      </p>
-                                      <p>
-                                        <label>
-                                          <input name="cara_bayar" type="radio"/>
-                                          <span>Kredit</span>
-                                        </label>
-                                      </p>
-                                </div> --}}
-                                <div class="control-group">
-                                    <label for="bayar">Dibayarkan</label>
-                                    <input type="number" name="bayar" id="bayar" class="span6" required>
-                                </div>
-                                <div class="control-group">
-                                    <label for="kembalian">Kembalian</label>
-                                    <input type="number" name="kembalian" id="kembalian" class="span6" required>
+                                <div class="span5">
+                                    <div class="widget">
+                                        <div class="widget-content">
+                                            <div class="control-group">
+                                                <label for="" class="red lighten-4">Total HPP</label>
+                                                <input type="number" name="total_hpp" id="total_hpp" class="span1 total_hpp" readonly>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="" class="red lighten-4">Emblase + Tuslah</label>
+                                                <input type="number" name="emblase_tuslah" class="span1 emblase_tuslah" placeholder="Tagihan" readonly>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="" class="red lighten-4">Tagihan + PPN</label>
+                                                <input type="number" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="bayar" class="red lighten-4">Dibayarkan</label>
+                                                <input type="number" name="bayar" id="bayar" class="span6" required>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="kembalian" class="red lighten-4">Kembalian</label>
+                                                <input type="number" name="kembalian" id="kembalian" class="span6" required>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -232,6 +221,7 @@
                         baris_b.find('.harga_umum').val(obj.harga_umum)
                         baris_b.find('.id-barang').val(obj.id)
                         baris_b.find('.harga_beli').val(obj.harga_beli)
+                        baris_b.find('.stok').val(obj.stok_akhir)
                     })
                 },
                 error:function(thrownError,ajaxOption,xhr){

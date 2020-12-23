@@ -23,8 +23,13 @@ class PenjualanController extends Controller
     public function index()
     {
         $ppn = Ppn::orderBy('ppn', 'ASC')->first();
-        $barang = Barang::orderBy('nama', 'ASC')->get();
         $letak = Letak::orderBy('letak', 'ASC')->get();
+        $barang = Barang::orderBy('nama', 'ASC')->get();
+        // $stok_akhir = Barang::orderBy('nama', 'ASC')
+        //             ->join('riwayat', 'riwayat.barang_id', '=', 'barang.id')
+        //             ->select('barang.*', 'riwayat.stok_akhir')
+        //             ->get();
+        
         //Set Nota Jual
         $now = now()->format('dmY');
         $nota_jual = 'JUAL';
@@ -98,6 +103,7 @@ class PenjualanController extends Controller
             'aksi' => 'Simpan'
         ]);
 
+        Session::flash('message', 'Data Penjualan berhasil ditambahkan');
         return redirect()->route('report');
     }
 

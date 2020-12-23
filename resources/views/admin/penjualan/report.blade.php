@@ -3,6 +3,16 @@
 @section('content')
     <div class="row">
         <div class="col s12">
+            @if(Session::has('message'))
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>{{ Session('message') }}</strong>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-content">
                     <table class="responsive-table centered">

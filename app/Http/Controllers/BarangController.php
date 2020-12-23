@@ -114,9 +114,7 @@ class BarangController extends Controller
         $set_persentase_jual = Setpersentasejual::orderBy('id_persen', 'DESC')->limit(1)->get();
         $golongan = Golongan::orderBy('golongan', 'ASC')->get();
         $kategori = Kategori::orderBy('nama', 'ASC')->get();
-        // $letak = Letak::orderBy('letak', 'ASC')->get();
         $satuan = Satuan::orderBy('satuan', 'ASC')->get();
-        print_r($barang->nama); die();
         return view('admin.barang.edit', compact('jenis', 'set_persentase_jual', 'golongan', 'kategori', 'satuan', 'barang'));
     }
 
