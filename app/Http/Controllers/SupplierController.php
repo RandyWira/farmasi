@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Riwayat;
+use App\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
-class RiwayatController extends Controller
+
+class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +16,8 @@ class RiwayatController extends Controller
      */
     public function index()
     {
-        // $riwayat = Riwayat::orderBy('')
-        return view('admin.riwayat.index');
+        $supplier = Supplier::orderBy('nama', 'ASC')->get();
+        return view('admin.supplier.index', compact('supplier'));
     }
 
     /**
@@ -25,7 +27,7 @@ class RiwayatController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.supplier.create');
     }
 
     /**
@@ -36,7 +38,15 @@ class RiwayatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $supplier = new Supplier();
+        $supplier->nama = $request->nama;
+        $supplier->alamat = $request->alamat;
+        $supplier->no_hp = $request->nohp;
+
+        $supplier->save();
+
+        Session::flash('message', 'Data Supplier berhasil ditambahkan !! ');
+        return redirect()->route('supplier.index');
     }
 
     /**

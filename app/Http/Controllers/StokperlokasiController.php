@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Stokperlokasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class StokperlokasiController extends Controller
 {
@@ -13,7 +17,12 @@ class StokperlokasiController extends Controller
      */
     public function index()
     {
-        return view('admin.stok.index');
+        $stok = Stokperlokasi::orderBy('barang.nama', 'ASC')
+                    ->join('barang', 'barang.id', '=', 'stok_per_lokasi.id_barang')
+                    ->join('letak_barang', 'letak_barang.id_letak', '=', 'stok_per_lokasi.id_letak')
+                    ->select('stok_per_lokasi.*', 'barang.nama', 'letak_barang.letak')
+                    ->paginate(10);        
+        return view('admin.stok.index', compact('stok'));
     }
 
     /**

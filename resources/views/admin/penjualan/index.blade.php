@@ -8,6 +8,9 @@
                 <div class="row">
                     <div class="span12">
                         <div class="widget">
+                            <div class="widget-header"> <i class="icon-shopping-cart"></i>
+                                <h3> Penjualan Obat</h3>
+                            </div>
                             <div class="widget-content">
                                 <div class="span6">
                                     <div class="widget">

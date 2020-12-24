@@ -28,15 +28,15 @@ class PembelianController extends Controller
         $now = now()->format('dmY');
         // $nota_jual = 'JUAL';
 
-        $tgl = now()->format('Y-m-d');
-        $nota_tgl = now()->format('dmY');
-        $data = DB::table('pembelian')->whereDate('created_at', $tgl)->count();
-        $angka = '000'.$data;
+        // $tgl = now()->format('Y-m-d');
+        // $nota_tgl = now()->format('dmY');
+        // $data = DB::table('pembelian')->whereDate('created_at', $tgl)->count();
+        // $angka = '000'.$data;
 
         // mengambil nota jual
-        $no_nota = 'PBL'.$nota_tgl.$angka;
+        // $no_nota = 'PBL'.$nota_tgl.$angka;
 
-        return view('admin.pembelian.index', compact('letak','barang','ppn', 'angka', 'no_nota','supplier'));
+        return view('admin.pembelian.index', compact('letak','barang','ppn', 'supplier'));
     }
 
     public function store(Request $request){
@@ -45,15 +45,17 @@ class PembelianController extends Controller
             DB::table('riwayat')->insert([
                 'barang_id' => $value['id'],
                 'stok_awal' => $cari_stok->stok,
-                'stok_akhir' => $cari_stok->stok-$value['qty'],
-                'masuk' => 0,
-                'keluar' => $value['qty'],
+                'stok_akhir' => $cari_stok->stok+$value['qty'],
+                'masuk' => $value['qty'],
+                'keluar' => 0,
                 'bagian' => 'Pembelian',
+                'tanggal' => $request->tanggal,
                 'user_id'=>Auth::id(),
                 'letak_id' => $request->id_letak,
-                'aksi' => 'Simpan'
+                'aksi' => 'Simpan',
+                'no_faktur' => $request->nota_jual
             ]);
-            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok-$value['qty']]);
+            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok+$value['qty']]);
     	}
     	DB::table('pembelian')->insert([
             'no_faktur'     => $request->nota_jual,
