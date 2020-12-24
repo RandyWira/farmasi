@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('home', 'HomeController');
     Route::resource('jenis', 'JenisController');
     Route::resource('barang', 'BarangController');
-    Route::resource('persentasejual', 'SetpersentasejualController');
+    Route::resource('set_persentase_jual', 'SetpersentasejualController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('opname', 'OpnameController');
     Route::resource('golongan', 'GolonganController');
@@ -58,4 +58,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     Route::resource('mutasi_masuk', 'MutasiMasukController');
     Route::resource('mutasi_keluar', 'MutasiKeluarController');
+    Route::resource('supplier', 'SupplierController');
 });

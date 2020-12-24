@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Setpersentasejual;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class SetpersentasejualController extends Controller
 {
@@ -56,9 +58,10 @@ class SetpersentasejualController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Setpersentasejual $set_persentase_jual)
     {
-        //
+        // dd($set_persentase_jual);
+        return view('admin.set_harga_jual.edit', compact('set_persentase_jual'));
     }
 
     /**
@@ -68,9 +71,15 @@ class SetpersentasejualController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Setpersentasejual $set_persentase_jual)
     {
-        //
+        $set_persentase_jual->persen_grosir = $request->harga_grosir;
+        $set_persentase_jual->persen_langganan = $request->harga_langganan;
+        $set_persentase_jual->persen_umum = $request->harga_umum;
+        $set_persentase_jual->save();
+
+        Session::flash('message', 'Persentase keuntungan penjualan Berhasil diubah');
+        return redirect()->route('set_persentase_jual.index');
     }
 
     /**

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Stokperlokasi;
+use App\Supplier;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class StokperlokasiController extends Controller
+
+class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,12 +16,8 @@ class StokperlokasiController extends Controller
      */
     public function index()
     {
-        $stok = Stokperlokasi::orderBy('barang.nama', 'ASC')
-                    ->join('barang', 'barang.id', '=', 'stok_per_lokasi.id_barang')
-                    ->join('letak_barang', 'letak_barang.id_letak', '=', 'stok_per_lokasi.id_letak')
-                    ->select('stok_per_lokasi.*', 'barang.nama', 'letak_barang.letak')
-                    ->paginate(10);        
-        return view('admin.stok.index', compact('stok'));
+        $supplier = Supplier::orderBy('nama', 'ASC')->get();
+        return view('admin.supplier.index', compact('supplier'));
     }
 
     /**
@@ -32,7 +27,7 @@ class StokperlokasiController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.supplier.create');
     }
 
     /**
@@ -43,7 +38,15 @@ class StokperlokasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $supplier = new Supplier();
+        $supplier->nama = $request->nama;
+        $supplier->alamat = $request->alamat;
+        $supplier->no_hp = $request->nohp;
+
+        $supplier->save();
+
+        Session::flash('message', 'Data Supplier berhasil ditambahkan !! ');
+        return redirect()->route('supplier.index');
     }
 
     /**

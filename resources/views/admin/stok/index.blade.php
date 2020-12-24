@@ -5,7 +5,7 @@
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <table class="responsive-table">
+                    <table class="responsive-table centered">
                         <thead class="teal lighten-3">
                             <tr>
                                 <th>Nama Barang</th>
@@ -14,14 +14,17 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($stok as $item)
                             <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->letak }}</td>
+                                <td>{{ $item->stok }}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+                {{ $stok->links() }}
             </div>
         </div>
     </div>

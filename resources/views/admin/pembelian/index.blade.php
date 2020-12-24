@@ -8,13 +8,16 @@
                 <div class="row">
                     <div class="span12">
                         <div class="widget">
+                            <div class="widget-header"> <i class="icon-money"></i>
+                                <h3> Penerimaan Obat</h3>
+                            </div>
                             <div class="widget-content">
                                 <div class="span6">
                                     <div class="widget">
                                         <div class="widget-content">
                                             <div class="control-group">
                                                 <label for="nota_jual" class="red lighten-4">No. Nota</label>
-                                                <input type="text" name="nota_jual" id="nota_jual" placeholder="No. NOTA" class="span6" value="{{ $no_nota }}" readonly>
+                                                <input type="text" name="nota_jual" id="nota_jual" placeholder="No. NOTA" class="span6" required>
                                             </div>
                                             <div class="control-group">
                                                 <label for="tanggal" class="red lighten-4">Tanggal</label>

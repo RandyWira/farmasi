@@ -135,7 +135,7 @@
                                 <button type="submit" class="btn btn-info">
                                     Update
                                 </button>
-                                <a class="btn" href="{{ route('jenis.index') }}">Batal</a>
+                                <a class="btn" href="{{ route('barang.index') }}">Batal</a>
                             </div>
                         </fieldset>
                     </form>

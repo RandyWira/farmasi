@@ -4,25 +4,10 @@
     <div class="row">
         <div class="col s12">
             <div class="card">
-                <div class="card-content">
-                    {{-- <form action="{{route ('opname.store')}}" method="POST">
-                        @csrf
-                    <input type="hidden" value="0" id="total">    
-                    <div class="row">
-                        <div class="span6">
-                            <div id="list-input">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="input1" name="angka[0][testing]">
-                                    <input type="text" class="form-control" placeholder="inputan1" name="angka[0][testing2]">
-                                </div>
-                            </div>    
-                            <div class="form-group">
-                                <button type="button" id="tambah-input" class="btn btn-primary">+</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </div>           
-                    </div>                 
-                </form> --}}
+                <div class="widget-header"> <i class="icon-briefcase"></i>
+                    <h3> Opname Obat</h3>
+                </div>
+                <div class="widget-content">
                     <form action="{{ route('opname.store') }}" method="POST" class="form-horizontal">
                         @csrf
                         <div class="control-group">
@@ -114,12 +99,6 @@
         </div>
     </div>
 <script>
-// var list = $('#list-input')
-// var angka = 0
-
-// $('#tambah-input').click(function(){
-//     list.append("<div class='baris-input'><input type='text' class='form-control' name='angka["+angka+"][testing]' placeholder='input"+angka+"'><input type='text' class='form-control' name='angka["+angka+"][testing2]' placeholder='inputan"+angka+"'><button class='hapus-cok btn-default'>remove</button></div>")
-// })
 
 $('.real_stok').attr('readonly','true')
         $('.stok').attr('readonly','true')
