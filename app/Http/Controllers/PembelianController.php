@@ -46,14 +46,16 @@ class PembelianController extends Controller
                 'barang_id' => $value['id'],
                 'stok_awal' => $cari_stok->stok,
                 'stok_akhir' => $cari_stok->stok+$value['qty'],
-                'masuk' => 0,
-                'keluar' => $value['qty'],
+                'masuk' => $value['qty'],
+                'keluar' => 0,
                 'bagian' => 'Pembelian',
+                'tanggal' => $request->tanggal,
                 'user_id'=>Auth::id(),
                 'letak_id' => $request->id_letak,
-                'aksi' => 'Simpan'
+                'aksi' => 'Simpan',
+                'no_faktur' => $request->nota_jual
             ]);
-            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok-$value['qty']]);
+            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok+$value['qty']]);
     	}
     	DB::table('pembelian')->insert([
             'no_faktur'     => $request->nota_jual,

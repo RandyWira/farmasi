@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Riwayat;
 use Illuminate\Http\Request;
 
 class RiwayatController extends Controller
@@ -13,6 +14,7 @@ class RiwayatController extends Controller
      */
     public function index()
     {
+        // $riwayat = Riwayat::orderBy('')
         return view('admin.riwayat.index');
     }
 
