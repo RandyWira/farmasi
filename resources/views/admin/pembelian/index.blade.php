@@ -16,14 +16,15 @@
                                     <div class="widget">
                                         <div class="widget-content">
                                             <div class="control-group">
-                                                <label for="nota_jual" class="red lighten-4">No. Nota</label>
-                                                <input type="text" name="nota_jual" id="nota_jual" placeholder="No. NOTA" class="span6" required>
+                                                <label for="nota_jual" class="red lighten-4">No. Faktur</label>
+                                                <input type="text" name="nota_jual" value="{{$no_faktur}}" id="nota_jual" placeholder="No. NOTA" class="span6" required>
                                             </div>
                                             <div class="control-group">
                                                 <label for="tanggal" class="red lighten-4">Tanggal</label>
                                                 <input type="date" name="tanggal" id="tanggal" class="span6">
                                             </div>
                                             <div class="control-group">
+                                                <input type="hidden" name="supplier_id" class="supplier_id">
                                                 <label for="pembeli"  class="red lighten-4">Nama Supplier</label>
                                                 <input type="text" name="supplier" id="supplier" list="list-supplier" autocomplete="off" placeholder="Nama Supplier" class="span6" required>
                                             </div>
@@ -36,8 +37,12 @@
                                                 </select>
                                             </div>
                                             <div class="control-group">
+                                                <label for="no_jurnal">No. Jurnal</label>
+                                                <input type="text" name="no_jurnal" id="no_jurnal" class="span3" value="{{ $no_jurnal }}">
+                                            </div>
+                                            <div class="control-group">
                                                 <label for="akun_id" class="red lighten-4">Akun Bayar</label>
-                                                <select name="id_letak" id="id_letak" class="span3">
+                                                <select name="akun_bayar" id="id_letak" class="span3">
                                                     @foreach ($sub_akun as $item)
                                                     <option value={{ $item->id }}>{{ $item->nama }}</option>
                                                     @endforeach
@@ -172,7 +177,7 @@
             </datalist>
             <datalist id="list-supplier">
                 @foreach ($supplier as $i)
-                    <option class="datalist-supplier" value="{{$i->id}}">{{$i->nama}}</option>  
+                    <option class="datalist-supplier" value="{{$i->nama}}">{{$i->nama}}</option>  
                 @endforeach
             </datalist>   
         </div>    
@@ -239,6 +244,22 @@
                         baris_b.find('.harga_beli').val(obj.harga_beli)
                         baris_b.find('.stok').val(obj.stok_akhir)
                     })
+                },
+                error:function(thrownError,ajaxOption,xhr){
+                    // alert('error cok ')
+                }
+            })
+        })
+
+        $(document).on('keyup','#supplier', function(){
+            var supplier = $(this).val();
+            $.ajax({
+                url:"{{ route ('carisupplier') }}",
+                dataType:'JSON',
+                type:'GET',
+                data:"&cari="+supplier,
+                success:function(data){
+                    $('.supplier_id').val(data.id)
                 },
                 error:function(thrownError,ajaxOption,xhr){
                     // alert('error cok ')
@@ -355,6 +376,7 @@
             var total = parseInt($('#bayar').val())-parseInt($('.tagihan').val());
             $('#kembalian').val(total);
         })
+
 
         // function laba() {
         //     var laba = $('.laba')

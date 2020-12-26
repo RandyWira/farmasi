@@ -6,8 +6,8 @@ use App\Ppn;
 use App\Letak;
 use App\Barang;
 use App\Subakun;
-use App\Penjualan;
-use App\Detailpenjualan;
+use App\Pembelian;
+use App\Detailpembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -26,23 +26,71 @@ class PembelianController extends Controller
         //             ->get();
         $sub_akun = Subakun::orderBy('id', 'ASC')->get();
         $supplier = DB::table('supplier')->orderBy('id','ASC')->get();
-        //Set Nota Jual
         $now = now()->format('dmY');
-        // $nota_jual = 'JUAL';
+        //Set Nota Beli
+        $nota_jual = 'BELI';
+        $tgl = now()->format('Y-m-d');
+        $nota_tgl = now()->format('dmY');
+        $data = DB::table('pembelian')->whereDate('created_at', $tgl)->count();
+        $angka = '000'.$data;
 
-        // $tgl = now()->format('Y-m-d');
-        // $nota_tgl = now()->format('dmY');
-        // $data = DB::table('pembelian')->whereDate('created_at', $tgl)->count();
-        // $angka = '000'.$data;
+        $no_faktur = 'PBL'.$nota_tgl.$angka;
+        // mengambil nota beli
+        $initJurnal = now()->format('Ymd');
+        $countJurnal = DB::table('jurnal')->whereDate('tgl_transaksi', $tgl)->count();
+        $angkaJurnal = '001'.$countJurnal;
+        $no_jurnal = "JRL".$initJurnal.$angkaJurnal;
+        return view('admin.pembelian.index', compact('letak','barang','ppn', 'supplier', 'sub_akun','no_faktur','no_jurnal'));
+    }
 
-        // mengambil nota jual
-        // $no_nota = 'PBL'.$nota_tgl.$angka;
+    public function loaddata(Request $request)
+    {
+        // if ($request->has('q')) {
+        //     $cari = $request->q;
+        //     $data = DB::table('barang')->select('id', 'nama', 'harga_beli')->where('nama', 'LIKE', '%$cari%')->get();
+        //     return response()->json($data);
+        // }
 
-        return view('admin.pembelian.index', compact('letak','barang','ppn', 'supplier', 'sub_akun'));
+        $cari = $request->input('cari');
+        // $data['a'] = DB::table('barang')->where('nama', 'LIKE'  , "%{$cari}%")->get();
+        $data = DB::table('supplier')->where('nama',$cari)->first();
+
+
+        // $data['riwayat'] = DB::select('select * from riwayat where barang_id = ? order by DESC', [$data_id->id]);
+        return response()->json($data);
     }
 
     public function store(Request $request){
+        DB::table('pembelian')->insert([
+            'no_faktur'     => $request->nota_jual,
+            'total_beli'  => $request->total_keseluruhan,
+            'suplier_id'      => $request->supplier_id,
+            'letak_id'      => $request->id_letak,
+            'potongan_beli'  => 0,
+            'ppn_beli'      => $request->harga_ppn,
+            'tagihan_beli'  => $request->tagihan,
+            'created_at'    => $request->tanggal,
+            // 'cara_bayar'    => $request->cara_bayar ? 1 : 0
+
+        ]);
+        DB::table('jurnal')->insert([
+            'no_jurnal'     => $request->no_jurnal,
+            'no_bukti'      => $request->no_faktur,
+            'tgl_transaksi' => now(),
+            'nama'          => $request->no_jurnal.",".$request->no_faktur." Pembelian Obat ".Auth::user()->name,
+            'user_id'       => Auth::id()
+        ]);
     	foreach($request->jual as $key => $value){
+            DB::table('detail_beli')->insert([
+                'no_faktur' => $request->nota_jual,
+                'barang_id' => $value['id'],
+                'supplier_id' => $request->supplier_id,
+                'jml_beli' => $value['qty'],
+                'harga_beli' => $value['harga_umum'],
+                'subtotal' => $value['subtotal'],
+                'diskon' => $value['diskon'],
+                'total' => $value['total'],
+            ]);
     		$cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->first();
             DB::table('riwayat')->insert([
                 'barang_id' => $value['id'],
@@ -59,19 +107,47 @@ class PembelianController extends Controller
             ]);
             $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok+$value['qty']]);
     	}
-    	DB::table('pembelian')->insert([
-            'no_faktur'     => $request->nota_jual,
-            'total_beli'  => $request->total_keseluruhan,
-            'suplier_id'      => $request->supplier,
-            'letak_id'      => $request->id_letak,
-            'potongan_beli'  => 0,
-            'ppn_beli'      => $request->harga_ppn,
-            'tagihan_beli'  => $request->tagihan,
-            'created_at'    => $request->tanggal,
-            // 'cara_bayar'    => $request->cara_bayar ? 1 : 0
-
-        ]);
+    	
+        
         Session::flash('message', 'Data Pembelian berhasil ditambahkan');
-        return redirect()->route('pembelian.index');
+        return redirect()->route('report-beli');
+    }
+
+    public function report()
+    {
+        $report_beli = Pembelian::orderBy('created_at', 'DESC')->get();
+
+        return view('admin.pembelian.report', compact('report_beli'));
+    }
+
+    public function detail(Pembelian $pembelian)
+    {
+        $nama_supplier = DB::table('supplier')->where('id',$pembelian->suplier_id)->first();
+
+        $detail_beli = Detailpembelian::orderBy('no_faktur', 'ASC')
+                        ->join('pembelian', 'pembelian.no_faktur', '=', 'detail_beli.no_faktur')
+                        ->join('barang', 'barang.id', '=', 'detail_beli.barang_id')
+                        ->join('supplier', 'supplier.id', '=', 'detail_beli.supplier_id')
+                        ->select('detail_beli.no_faktur', 'barang.nama', 'barang.harga_beli', 'detail_beli.jml_beli', 'detail_beli.harga_beli', 'detail_beli.subtotal', 'detail_beli.diskon', 'detail_beli.total','supplier.nama as nama_supplier')
+                        ->where('detail_beli.no_faktur', $pembelian->no_faktur)
+                        ->get();
+        // print_r($pembelian->nota_jual); die();
+        return view('admin.pembelian.detail', compact('pembelian', 'detail_beli', 'nama_supplier'));
+    }
+
+    public function cetak_nota(Pembelian $pembelian)
+    {
+        $today = Carbon::now()->isoFormat('D MMMM Y');
+        $nama_supplier = DB::table('supplier')->where('id',$pembelian->suplier_id)->first();
+        $detail_beli = Detailpembelian::orderBy('no_faktur', 'ASC')
+                            ->join('pembelian', 'pembelian.no_faktur', '=', 'detail_beli.no_faktur')
+                            ->join('barang', 'barang.id', '=', 'detail_beli.barang_id')
+                            ->join('supplier', 'supplier.id', '=', 'detail_beli.supplier_id')
+                            ->select('detail_beli.no_faktur', 'barang.nama', 'barang.harga_beli', 'detail_beli.jml_beli', 'detail_beli.harga_beli as harga', 'detail_beli.subtotal', 'detail_beli.diskon', 'detail_beli.total','supplier.nama as nama_supplier')
+                            ->where('detail_beli.no_faktur', $pembelian->no_faktur)
+                            ->get();
+        $ppn = DB::table('set_ppn_jual')->first();
+        $judul = "Nota pembelian ".$pembelian->no_faktur;
+        return view('admin.pembelian.nota', compact('pembelian','judul', 'detail_beli','ppn','today','nama_supplier'));
     }
 }

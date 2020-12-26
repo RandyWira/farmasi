@@ -117,7 +117,7 @@ class PenjualanController extends Controller
             'no_jurnal'     => $request->no_jurnal,
             'no_bukti'      => $request->nota_jual,
             'tgl_transaksi' => now(),
-            'nama'          => $request->no_jurnal.",".$request->nota_jual."Penjualan Obat ".Auth::user()->name,
+            'nama'          => $request->no_jurnal.",".$request->nota_jual." Penjualan Obat ".Auth::user()->name,
             'user_id'       => Auth::id()
         ]);
 

@@ -47,7 +47,7 @@
                                     <div class="widget">
                                         <div class="widget-content">
                                             <table class="responsive-table">
-                                                <tbody id="lsit-form">
+                                                <tbody id="list-form">
                                                     <tr class="baris-data">
                                                         <td>
                                                             <label for="nama" class="teal lighten-3">Nama Barang</label>
@@ -68,14 +68,15 @@
                                                             <label for="" class="teal lighten-3">Sub-Total (Rp)</label>
                                                             <input type="number" name="mutasi_masuk[0][subtotal]" class="span1 subtotal" placeholder="Subtotal" readonly>
                                                         </td>
+                                                        
                                                     </tr>
+                                                </tbody>
                                                     <tr>
                                                         <td colspan="4" style="text-align: right">
                                                             <button type="button" id="tambah-input" class="btn btn-primary">+</button>
                                                             <button type="submit" class="btn">Simpan</button>
                                                         </td>
                                                     </tr>
-                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -85,6 +86,7 @@
                     </div>
                 </div>
             </form>
+            <input type="hidden" name="" id="datalist-total" value="{{$total_barang}}">
             <datalist id="list-data">
                 @foreach ($barang as $i)
                     <option class="datalist-barang" value="{{$i->nama}}">{{$i->nama}}</option>  
@@ -94,8 +96,14 @@
     </div>
 
     <script>
+        $('#datalist-total').val($('#datalist-total').val()-2);
+        if($('#datalist-total').val() <= 0){
+            $('#tambah-input').prop('disabled', true)
+        }else{
+            $('#tambah-input').removeAttr('disabled')
+        }
         var list = $('#list-form')
-        var jual = 0
+        var mutasi_masuk = 0
         $('#tambah-input').click(function(){
             ++mutasi_masuk
             list.append('<tr class="baris-data"> \
@@ -118,6 +126,9 @@
                                 <label for="" class="teal lighten-3">Sub-Total (Rp)</label> \
                                 <input type="number" name="mutasi_masuk['+mutasi_masuk+'][subtotal]" class="span1 subtotal" placeholder="Subtotal" readonly> \
                             </td> \
+                            <td width="5%">\
+                                                            <a href="#" title="" class="hapus-input"><i class="icon-trash"></i></a>\
+                                                        </td>\
                         </tr>')
         })
 
@@ -150,5 +161,46 @@
                 }
             })
         })
+    $(document).on('change','.qty', function(){
+            var qty = $(this).val();
+            var baris_barang = $(this).parents('.baris-data');
+            var subtotal = baris_barang.find('.subtotal');
+            var harga_beli = baris_barang.find('.harga_beli');
+
+            subtotal.val(parseInt(qty)*parseInt(harga_beli.val()))
+            total_hpp()
+        })
+
+    $(document).on('keyup','.qty', function(){
+            var qty = $(this).val();
+            var baris_barang = $(this).parents('.baris-data');
+            var subtotal = baris_barang.find('.subtotal');
+            var harga_beli = baris_barang.find('.harga_beli');
+
+            subtotal.val(parseInt(qty)*parseInt(harga_beli.val()))
+            total_hpp()
+        })
+
+    $(document).on('click','.hapus-input',function(){
+        $(this).parents('.baris-data').remove()
+        total_hpp()
+        $('#datalist-total').val(parseInt($('#datalist-total').val())+2);
+        if($('#datalist-total').val() <= 0){
+            $('#tambah-input').prop('disabled', true)
+        }else{
+            $('#tambah-input').removeAttr('disabled')
+        }
+    })
+
+    function total_hpp() {
+            var nilai = 0;
+            var total_hpp = $('.total_hpp')
+            $('.baris-data').each(function(){
+                var cari_total_hpp = $(this).find('.subtotal').val();
+                nilai += parseInt(cari_total_hpp)
+            })
+            // console.log(nilai)
+            total_hpp.val(nilai)
+        }
     </script>
 @endsection

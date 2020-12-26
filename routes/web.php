@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('opname', 'OpnameController');
     Route::resource('golongan', 'GolonganController');
     Route::get('cari', 'OpnameController@loaddata')->name('cari');
+    Route::get('cari-supplier', 'PembelianController@loaddata')->name('carisupplier');
     Route::resource('riwayat', 'RiwayatController');
     Route::resource('stok', 'StokperlokasiController');
     Route::resource('penjualan', 'PenjualanController');
@@ -55,6 +56,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('report', 'PenjualanController@report')->name('report');
     Route::get('/penjualan/{penjualan}/detail', 'PenjualanController@detail')->name('penjualan.detail');
     Route::get('/penjualan/{penjualan}/cetak', 'PenjualanController@cetak_nota')->name('penjualan.cetak_nota');
+    Route::get('report-beli', 'PembelianController@report')->name('report-beli');
+    Route::get('/pembelian/{pembelian}/cetak', 'PembelianController@cetak_nota')->name('pembelian.cetak_nota');
+    Route::get('/pembelian/{pembelian}/detail', 'PembelianController@detail')->name('pembelian.detail');
 
     Route::resource('mutasi_masuk', 'MutasiMasukController');
     Route::resource('mutasi_keluar', 'MutasiKeluarController');
