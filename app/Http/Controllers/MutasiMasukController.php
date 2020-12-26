@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Letak;
+use App\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class MutasiMasukController extends Controller
 {
@@ -13,7 +19,16 @@ class MutasiMasukController extends Controller
      */
     public function index()
     {
-        //
+        $letak = Letak::orderBy('letak', 'ASC')->get();
+        $barang = Barang::orderBy('nama', 'ASC')->get();
+        $tgl = now()->format('Y-m-d');
+        $nota_tgl = now()->format('dmY');
+        $data = DB::table('mutasi_masuk')->whereDate('tanggal', $tgl)->count();
+        $angka = '000'.$data;
+
+        // mengambil nota jual
+        $no_mutasi = 'MM'.$nota_tgl.$angka;
+        return view('admin.mutasi_masuk.index', compact('letak', 'barang', 'no_mutasi'));
     }
 
     /**

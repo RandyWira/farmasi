@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Riwayat;
+use App\Konfigurasi;
 use Illuminate\Http\Request;
 
-class RiwayatController extends Controller
+class KonfigurasiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +14,8 @@ class RiwayatController extends Controller
      */
     public function index()
     {
-        $riwayat = Riwayat::orderBy('tanggal', 'ASC')
-                    ->select('riwayat.*', 'barang.nama', 'users.name', 'letak_barang.letak')
-                    ->join('barang', 'barang.id', '=', 'riwayat.barang_id')
-                    ->join('letak_barang', 'letak_barang.id_letak', '=', 'riwayat.letak_id')
-                    ->join('users', 'users.id', '=', 'riwayat.user_id')
-                    ->paginate(10);
-        return view('admin.riwayat.index', compact('riwayat'));
+        $konfigurasi = Konfigurasi::orderBy('id', 'ASC')->first();
+        return view('admin.konfigurasi.index', compact('konfigurasi'));
     }
 
     /**

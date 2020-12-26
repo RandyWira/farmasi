@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Riwayat;
+use DateTime;
+use App\Subakun;
+use DateInterval;
+use App\Rekeningtahun;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
-class RiwayatController extends Controller
+class RekeningtahunController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +20,15 @@ class RiwayatController extends Controller
      */
     public function index()
     {
-        $riwayat = Riwayat::orderBy('tanggal', 'ASC')
-                    ->select('riwayat.*', 'barang.nama', 'users.name', 'letak_barang.letak')
-                    ->join('barang', 'barang.id', '=', 'riwayat.barang_id')
-                    ->join('letak_barang', 'letak_barang.id_letak', '=', 'riwayat.letak_id')
-                    ->join('users', 'users.id', '=', 'riwayat.user_id')
-                    ->paginate(10);
-        return view('admin.riwayat.index', compact('riwayat'));
+        // echo date("Y",strtotime("-10 year")); die();
+        $sub_akun = Subakun::orderBy('id', 'ASC')->get();
+        $rekening_tahun = Rekeningtahun::orderBy('tahun', 'DESC')
+                            ->select('rekening_tahun.*', 'sub_akun.nama', 'akun.tipe', 'akun.balance')
+                            ->join('sub_akun', 'sub_akun.id', '=', 'rekening_tahun.subakun_id')
+                            ->join('akun', 'akun.id', '=', 'sub_akun.akun_id')                      
+                            ->get();
+        // dd($rekening_tahun);
+        return view('admin.rekening_tahun.index', compact('rekening_tahun', 'sub_akun'));
     }
 
     /**
@@ -41,7 +49,14 @@ class RiwayatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rekening_tahun = new Rekeningtahun();
+        $rekening_tahun->tahun = $request->tahun;
+        $rekening_tahun->subakun_id = $request->subakun_id;
+        $rekening_tahun->saldo_awal = $request->saldo_awal;
+        $rekening_tahun->save();
+
+        Session::flash('message', 'Rekening Tahun berhasil ditambahkan');
+        return redirect()->route('rekening_tahun.index');
     }
 
     /**

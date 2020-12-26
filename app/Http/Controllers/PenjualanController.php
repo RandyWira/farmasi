@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ppn;
 use App\Letak;
 use App\Barang;
+use App\Subakun;
 use App\Penjualan;
 use App\Detailpenjualan;
 use Illuminate\Http\Request;
@@ -29,11 +30,11 @@ class PenjualanController extends Controller
         //             ->join('riwayat', 'riwayat.barang_id', '=', 'barang.id')
         //             ->select('barang.*', 'riwayat.stok_akhir')
         //             ->get();
-        
-        //Set Nota Jual
-        $now = now()->format('dmY');
-        $nota_jual = 'JUAL';
+        $sub_akun = Subakun::orderBy('id', 'ASC')->get();
 
+        $now = now()->format('dmY');
+        //Set Nota Jual
+        $nota_jual = 'JUAL';
         $tgl = now()->format('Y-m-d');
         $nota_tgl = now()->format('dmY');
         $data = DB::table('penjualan')->whereDate('created_at', $tgl)->count();
@@ -41,8 +42,12 @@ class PenjualanController extends Controller
 
         // mengambil nota jual
         $no_nota = 'PJL'.$nota_tgl.$angka;
+        $initJurnal = now()->format('Ymd');
+        $countJurnal = DB::table('jurnal')->whereDate('tgl_transaksi', $tgl)->count();
+        $angkaJurnal = '001'.$countJurnal;
+        $no_jurnal = "JRL".$initJurnal.$angkaJurnal;
 
-        return view('admin.penjualan.index', compact('letak','barang','ppn', 'angka', 'no_nota'));
+        return view('admin.penjualan.index', compact('letak','barang','ppn', 'angka', 'no_nota', 'sub_akun', 'no_jurnal'));
     }
 
     /**
@@ -76,6 +81,7 @@ class PenjualanController extends Controller
                 'total_jual' => $value['total'],
             ]);
             $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->first();
+
             DB::table('riwayat')->insert([
                 'barang_id' => $value['id'],
                 'stok_awal' => $cari_stok->stok,
@@ -103,8 +109,27 @@ class PenjualanController extends Controller
             'bayar'         => $request->bayar,
             'kembalian'     => $request->kembalian
             // 'cara_bayar'    => $request->cara_bayar ? 1 : 0
-
         ]);
+
+
+        // // Insert data ke table jurnal
+        DB::table('jurnal')->insert([
+            'no_jurnal'     => $request->no_jurnal,
+            'no_bukti'      => $request->nota_jual,
+            'tgl_transaksi' => now(),
+            'nama'          => $request->no_jurnal.",".$request->nota_jual."Penjualan Obat ".Auth::user()->name,
+            'user_id'       => Auth::id()
+        ]);
+
+        //Insert data ke table detail_jurnal
+        // DB::table('detail_jurnal')->insert([
+        //     'no_jurnal'     => $request->no_jurnal,
+        //     'subakun_id'    => $request->subakun_id,
+        //     'debet'         => $value['total']
+        //     ''
+        // ]);
+
+        $no_jurnal = $request->no_jurnal;
         
 
         Session::flash('message', 'Data Penjualan berhasil ditambahkan');

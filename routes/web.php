@@ -59,4 +59,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('mutasi_masuk', 'MutasiMasukController');
     Route::resource('mutasi_keluar', 'MutasiKeluarController');
     Route::resource('supplier', 'SupplierController');
+    Route::resource('akun', 'AkunController');
+    Route::resource('rekening_tahun', 'RekeningtahunController');
+
+    Route::resource('konfigurasi', 'KonfigurasiController');
 });

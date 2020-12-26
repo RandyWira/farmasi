@@ -35,6 +35,14 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <div class="control-group">
+                                                <label for="akun_id" class="red lighten-4">Akun Bayar</label>
+                                                <select name="id_letak" id="id_letak" class="span3">
+                                                    @foreach ($sub_akun as $item)
+                                                    <option value={{ $item->id }}>{{ $item->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -177,35 +185,35 @@
         $('#tambah-input').click(function(){
           ++jual
           list.append('<tr class="baris-data"> \
-                            <td> \
-                                <input type="text" name="jual['+jual+'][nama]" class="span6 caribarang" autocomplete="off" list="list-data" placeholder="Nama Obat"> \
-                            </td> \
-                            <td class="hidden"> \
-                                <input type="text" placeholder="ID Obat" class="span1 id-barang" name="jual['+jual+'][id]"> \
-                            </td> \
-                            <td> \
-                                <input type="number" name="jual['+jual+'][qty]" class="span1 qty" placeholder="Qty"> \
-                            </td> \
-                            <td> \
-                                <input type="number" name="jual['+jual+'][harga_beli]" class="span1 harga_beli" placeholder="Harga Beli"> \
-                            </td> \
-                            <td> \
-                                <input type="number" name="jual['+jual+'][harga_umum]" class="span1 harga_umum" placeholder="Harga" readonly> \
-                            </td> \
-                            <td> \
-                                <input type="number" name="jual['+jual+'][subtotal]" class="span1 subtotal" placeholder="Subtotal" readonly> \
-                            </td> \
-                            <td> \
-                                <input type="number" name="jual['+jual+'][diskon]" class="span1 diskon" placeholder="Diskon"> \
-                            </td> \
-                            <td> \
-                                <input type="number" name="jual['+jual+'][hpp]" class="span1 hpp" placeholder="hpp" readonly> \
-                            </td> \
-                            <td> \
-                                <input type="number" name="jual['+jual+'][total]" class="span1 total" placeholder="Total" readonly> \
-                            </td> \
-                        </tr> \
-                    ')  
+                        <td> \
+                            <input type="text" name="jual['+jual+'][nama]" class="span6 caribarang" autocomplete="off" list="list-data" placeholder="Nama Obat"> \
+                        </td> \
+                        <td class="hidden"> \
+                            <input type="text" placeholder="ID Obat" class="span1 id-barang" name="jual['+jual+'][id]"> \
+                        </td> \
+                        <td> \
+                            <input type="number" name="jual['+jual+'][qty]" class="span1 qty" placeholder="Qty"> \
+                        </td> \
+                        <td> \
+                            <input type="number" name="jual['+jual+'][harga_beli]" class="span1 harga_beli" placeholder="Harga Beli"> \
+                        </td> \
+                        <td> \
+                            <input type="number" name="jual['+jual+'][harga_umum]" class="span1 harga_umum" placeholder="Harga" readonly> \
+                        </td> \
+                        <td> \
+                            <input type="number" name="jual['+jual+'][subtotal]" class="span1 subtotal" placeholder="Subtotal" readonly> \
+                        </td> \
+                        <td> \
+                            <input type="number" name="jual['+jual+'][diskon]" class="span1 diskon" placeholder="Diskon"> \
+                        </td> \
+                        <td> \
+                            <input type="number" name="jual['+jual+'][hpp]" class="span1 hpp" placeholder="hpp" readonly> \
+                        </td> \
+                        <td> \
+                            <input type="number" name="jual['+jual+'][total]" class="span1 total" placeholder="Total" readonly> \
+                        </td> \
+                    </tr> \
+                ')  
         })
 
         $(document).on('keyup', '.caribarang', function(){

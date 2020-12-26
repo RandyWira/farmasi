@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Riwayat;
+use App\Akun;
+use App\Subakun;
 use Illuminate\Http\Request;
 
-class RiwayatController extends Controller
+class AkunController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +15,9 @@ class RiwayatController extends Controller
      */
     public function index()
     {
-        $riwayat = Riwayat::orderBy('tanggal', 'ASC')
-                    ->select('riwayat.*', 'barang.nama', 'users.name', 'letak_barang.letak')
-                    ->join('barang', 'barang.id', '=', 'riwayat.barang_id')
-                    ->join('letak_barang', 'letak_barang.id_letak', '=', 'riwayat.letak_id')
-                    ->join('users', 'users.id', '=', 'riwayat.user_id')
-                    ->paginate(10);
-        return view('admin.riwayat.index', compact('riwayat'));
+        $sub_akun = Subakun::orderBy('id', 'ASC')->get();
+        $akun = Akun::orderBy('id', 'ASC')->get();
+        return view('admin.akun.index', compact('sub_akun', 'akun'));
     }
 
     /**
