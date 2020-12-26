@@ -140,7 +140,7 @@
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-file"></i><span>Laporan</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('report') }}">Laporan Data Penjualan</a></li>
-                            <li><a href="#">Laporan Data Pembelian</a></li>
+                            <li><a href="{{ route('report-beli') }}">Laporan Data Pembelian</a></li>
                             <li><a href="{{ route('riwayat.index') }}">Riwayat Obat </a></li>
                             <li><a href="{{ route('stok.index') }}">Stok per Lokasi </a> </li>
                         </ul>
