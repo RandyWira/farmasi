@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Letak;
 use App\Barang;
+use App\Detailmutasimasuk;
+use App\Mutasimasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -87,7 +89,7 @@ class MutasiMasukController extends Controller
             ]);
 
             Session::flash('message', 'Data Mutasi Masuk berhasil ditambahkan');
-            return redirect()->route('report');
+            return redirect()->route('report-mutasi-masuk');
     }
 
     /**
@@ -133,5 +135,38 @@ class MutasiMasukController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function report()
+    {
+        $report_mutasi_masuk = Mutasimasuk::orderBy('tanggal', 'DESC')->get();
+
+        return view('admin.mutasi_masuk.report', compact('report_mutasi_masuk'));
+    }
+
+    public function detail(Mutasimasuk $mutasi_masuk)
+    {
+
+        $detail_mutasi_masuk = Detailmutasimasuk::orderBy('no_mutasi', 'ASC')
+                        ->join('mutasi_masuk', 'mutasi_masuk.no_mutasi', '=', 'detail_mutasi_masuk.no_mutasi')
+                        ->join('barang', 'barang.id', '=', 'detail_mutasi_masuk.barang_id')
+                        ->select('detail_mutasi_masuk.no_mutasi', 'barang.nama', 'barang.harga_beli as harga_brg', 'detail_mutasi_masuk.jml', 'detail_mutasi_masuk.harga_beli', 'detail_mutasi_masuk.sub_total')
+                        ->where('detail_mutasi_masuk.no_mutasi', $mutasi_masuk->no_mutasi)
+                        ->get();
+        // print_r($mutasi_masuk->nota_jual); die();
+        return view('admin.mutasi_masuk.detail', compact('mutasi_masuk', 'detail_mutasi_masuk'));
+    }
+
+    public function cetak_nota(Mutasimasuk $mutasi_masuk)
+    {
+        $today = Carbon::now()->isoFormat('D MMMM Y');
+        $detail_mutasi_masuk = Detailmutasimasuk::orderBy('no_mutasi', 'ASC')
+                        ->join('mutasi_masuk', 'mutasi_masuk.no_mutasi', '=', 'detail_mutasi_masuk.no_mutasi')
+                        ->join('barang', 'barang.id', '=', 'detail_mutasi_masuk.barang_id')
+                        ->select('detail_mutasi_masuk.no_mutasi', 'barang.nama', 'barang.harga_beli as harga_brg', 'detail_mutasi_masuk.jml', 'detail_mutasi_masuk.harga_beli', 'detail_mutasi_masuk.sub_total')
+                        ->where('detail_mutasi_masuk.no_mutasi', $mutasi_masuk->no_mutasi)
+                        ->get();
+        $judul = "Laporan Mutasi Masuk".$mutasi_masuk->nota_jual;
+        return view('admin.mutasi_masuk.nota', compact('mutasi_masuk','judul', 'detail_mutasi_masuk','today'));
     }
 }
