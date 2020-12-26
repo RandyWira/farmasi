@@ -5,7 +5,7 @@
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <table class="responsive-table">
+                    <table class="responsive-table centered">
                         <thead class="teal lighten-3">
                             <tr>
                                 <th>Nama Barang</th>
@@ -22,21 +22,24 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($riwayat as $item)
                             <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->stok_awal }}</td>
+                                <td>{{ $item->masuk }}</td>
+                                <td>{{ $item->keluar }}</td>
+                                <td>{{ $item->stok_akhir }}</td>
+                                <td>{{ $item->bagian }}</td>
+                                <td>{{ $item->tanggal }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->letak }}</td>
+                                <td>{{ $item->aksi }}</td>
+                                <td>{{ $item->no_faktur }}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                    {{ $riwayat->links() }}
                 </div>
             </div>
         </div>

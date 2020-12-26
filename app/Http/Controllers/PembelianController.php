@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ppn;
 use App\Letak;
 use App\Barang;
+use App\Subakun;
 use App\Penjualan;
 use App\Detailpenjualan;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class PembelianController extends Controller
         //             ->join('riwayat', 'riwayat.barang_id', '=', 'barang.id')
         //             ->select('barang.*', 'riwayat.stok_akhir')
         //             ->get();
+        $sub_akun = Subakun::orderBy('id', 'ASC')->get();
         $supplier = DB::table('supplier')->orderBy('id','ASC')->get();
         //Set Nota Jual
         $now = now()->format('dmY');
@@ -36,7 +38,7 @@ class PembelianController extends Controller
         // mengambil nota jual
         // $no_nota = 'PBL'.$nota_tgl.$angka;
 
-        return view('admin.pembelian.index', compact('letak','barang','ppn', 'supplier'));
+        return view('admin.pembelian.index', compact('letak','barang','ppn', 'supplier', 'sub_akun'));
     }
 
     public function store(Request $request){

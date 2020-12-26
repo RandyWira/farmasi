@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Dika Farma Smart</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -86,7 +86,7 @@
                     <span class="icon-bar"></span>
                 </a>
                 <a class="brand" href="{{ route('home.index') }}">
-                    Farmasi
+                    Dika Farma Smart
                 </a>
                 <div class="nav-collapse">
                     <ul class="nav pull-right">
@@ -95,6 +95,10 @@
                                 <i class="icon-user"></i> {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ route('konfigurasi.index') }}" class="dropdown-item">Set Aplikasi</a>
+                                </li>
+                                <hr class="solid">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -124,27 +128,25 @@
                         <a href="{{ route('opname.index') }}"><i class="icon-briefcase"></i><span>Stok Opname</span></a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-retweet"></i><span>Mutasi</span> <b class="caret"></b></a>
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-shopping-cart"></i><span>Transaksi</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Mutasi Masuk</a></li>
+                            <li><a href="{{ route('pembelian.index') }}"><span>Pembelian</span></a></li>
+                            <li><a href="{{ route('penjualan.index') }}"></i><span>Penjualan</span></a></li>
+                            <li><a href="{{ route('mutasi_masuk.index') }}">Mutasi Masuk</a></li>
                             <li><a href="#">Mutasi Keluar</a></li>
                         </ul>
-                    </li>   
-                    <li>
-                        <a href="{{ route('penjualan.index') }}"><i class="icon-shopping-cart"></i><span>Penjualan</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('pembelian.index') }}"><i class="icon-money"></i><span>Pembelian</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('riwayat.index') }}"><i class="icon-time"></i><span>Riwayat Obat</span> </a></li>
-                    <li><a href="{{ route('stok.index') }}"><i class="icon-bar-chart"></i><span>Stok per Lokasi</span> </a> </li>
+                    </li>                    
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-file"></i><span>Laporan</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('report') }}">Laporan Data Penjualan</a></li>
                             <li><a href="#">Laporan Data Pembelian</a></li>
+                            <li><a href="{{ route('riwayat.index') }}">Riwayat Obat </a></li>
+                            <li><a href="{{ route('stok.index') }}">Stok per Lokasi </a> </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a href="{{ route('supplier.index') }}"><i class="icon-truck"></i><span>Data Supplier</span></a>
                     </li>
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Master Data Obat BHP</span> <b class="caret"></b></a>
@@ -154,14 +156,18 @@
                             <li><a href="{{ route('barang.index') }}">Obat BHP</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="{{ route('supplier.index') }}"><i class="icon-truck"></i><span>Data Supplier</span></a>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-money"></i><span>Master Akuntansi</span> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('rekening_tahun.index') }}">Rekening Tahun</a></li>
+                            <li><a href="{{ route('akun.index') }}">Master Akun</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </div> <!-- End of Subnavbar -->
-    <div class="main">
+    <div class="main" style="background-color: rgb(8, 197, 197)">
         <div class="main-inner">
             <div class="container">
                 

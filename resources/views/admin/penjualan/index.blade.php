@@ -35,6 +35,19 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <div class="control-group">
+                                                <label for="no_jurnal">No. Jurnal</label>
+                                                <input type="text" name="no_jurnal" id="no_jurnal" class="span3" value="{{ $no_jurnal }}">
+                                            </div>
+                                            {{-- {{$sub_akun->id}} --}}
+                                            <div class="control-group">
+                                                <label for="subakun_id" class="red lighten-4">Akun Bayar</label>
+                                                <select name="subakun_id" id="subakun_id" class="span3">
+                                                    @foreach ($sub_akun as $item)
+                                                    <option value={{ $item->id }}>{{ $item->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
