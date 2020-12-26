@@ -53,12 +53,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('penjualan', 'PenjualanController');
     Route::resource('pembelian', 'PembelianController');
 
+    // modul penjualan
     Route::get('report', 'PenjualanController@report')->name('report');
     Route::get('/penjualan/{penjualan}/detail', 'PenjualanController@detail')->name('penjualan.detail');
     Route::get('/penjualan/{penjualan}/cetak', 'PenjualanController@cetak_nota')->name('penjualan.cetak_nota');
+    // modul pembelian
     Route::get('report-beli', 'PembelianController@report')->name('report-beli');
     Route::get('/pembelian/{pembelian}/cetak', 'PembelianController@cetak_nota')->name('pembelian.cetak_nota');
     Route::get('/pembelian/{pembelian}/detail', 'PembelianController@detail')->name('pembelian.detail');
+    // modul mutasi masuk
+    Route::get('report-mutasi-masuk', 'MutasiMasukController@report')->name('report-mutasi-masuk');
+    Route::get('/report-mutasi-masuk/{mutasi_masuk}/detail', 'MutasiMasukController@detail')->name('mutasi_masuk.detail');
+    Route::get('/report-mutasi-masuk/{mutasi_masuk}/cetak', 'MutasiMasukController@cetak_nota')->name('mutasi_masuk.cetak_nota');
+    // modul mutasi keluar
+    Route::get('report-mutasi-keluar', 'MutasiKeluarController@report')->name('report-mutasi-keluar');
+    Route::get('/report-mutasi-keluar/{mutasi_keluar}/detail', 'MutasiKeluarController@detail')->name('mutasi_keluar.detail');
+    Route::get('/report-mutasi-keluar/{mutasi_keluar}/cetak', 'MutasiKeluarController@cetak_nota')->name('mutasi_keluar.cetak_nota');
 
     Route::resource('mutasi_masuk', 'MutasiMasukController');
     Route::resource('mutasi_keluar', 'MutasiKeluarController');

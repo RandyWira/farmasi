@@ -45,20 +45,20 @@
 </head>
 <body>
 
-    <h1 style="background-color: darkgrey"><u>Detail Pembelian </u></h1>
+    <h1 style="background-color: darkgrey"><u>Detail Mutasi Masuk </u></h1>
     <table >
         <thead>
             <tr style="background: #A9A9A9">
-                <th>No Faktur</th>
+                <th>No Mutasi</th>
                 <th>Tanggal</th>
-                <th>Nama Supplier</th>
+                <th>Dari</th>
             </tr>
         </thead>
         <tbody align="center">
             <tr>
-                <td>{{$pembelian->no_faktur}}</td>
-                <td>{{$pembelian->created_at}}</td>
-                <td>{{$nama_supplier->nama}}</td>
+                <td>{{$mutasi_masuk->no_mutasi}}</td>
+                <td>{{$mutasi_masuk->tanggal}}</td>
+                <td>{{$mutasi_masuk->dari}}</td>
             </tr>
         </tbody>
     </table>
@@ -69,42 +69,33 @@
                 <th>Nama Obat</th>
                 <th>Jumlah</th>
                 <th>Harga Beli</th>
-                <th>Diskon</th>
                 <th>Nilai Total</th>
             </tr>
         </thead>
         <tbody>
             <?php 
-            $diskon = 0;
             $grand_total =0;
             $subtotal = 0;
             ?>
-            @foreach($detail_beli as $i)
+            @foreach($detail_mutasi_masuk as $i)
             <?php 
-            $diskon += $i->diskon;
-            $grand_total += $i->total;
+            $grand_total += $i->sub_total;
             // $subtotal = $
             ?>
             <tr>
                 <td>{{$i->nama}}</td>
-                <td>{{$i->jml_beli}}</td>
-                <td>@currency($i->harga)</td>
-                <td>{{$i->diskon}}</td>
-                <td>@currency($i->total)</td>
+                <td>{{$i->jml}}</td>
+                <td>@currency($i->harga_beli)</td>
+                <td>@currency($i->sub_total)</td>
             </tr>
             @endforeach
         </tbody>
         <tfoot style="text-align: right;font-weight:bold">
             <tr>
-                <td colspan="4">Diskon</td>
-                <td>Grand Total</td>
+                <td colspan="4">Grand Total</td>
             </tr>
             <tr>
                 <td colspan="4">
-                    @currency($diskon)
-                </td>
-
-                <td>
                     @currency($grand_total)
                 </td>
             </tr>
@@ -112,20 +103,10 @@
     </table>
     <hr>
     <table style="text-align:right;font-weight:bold" >
-        <tr style>
-            <td width="87%;">Harga PPN</td>
-            <td></td>
-            <td>@currency($pembelian->ppn_beli)</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
         <tr>
             <td>Total Pembelian Obat :</td>
             <td style="background-color: #48C9B0"></td>
-            <td style="background-color: #48C9B0">@currency($pembelian->tagihan_beli)</td>
+            <td style="background-color: #48C9B0">@currency($grand_total)</td>
         </tr>
     </table>
     <br>

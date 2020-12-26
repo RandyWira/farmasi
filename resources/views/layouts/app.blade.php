@@ -133,7 +133,7 @@
                             <li><a href="{{ route('pembelian.index') }}"><span>Pembelian</span></a></li>
                             <li><a href="{{ route('penjualan.index') }}"></i><span>Penjualan</span></a></li>
                             <li><a href="{{ route('mutasi_masuk.index') }}">Mutasi Masuk</a></li>
-                            <li><a href="#">Mutasi Keluar</a></li>
+                            <li><a href="{{ route('mutasi_keluar.index') }}">Mutasi Keluar</a></li>
                         </ul>
                     </li>                    
                     <li class="dropdown">
@@ -141,6 +141,8 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('report') }}">Laporan Data Penjualan</a></li>
                             <li><a href="{{ route('report-beli') }}">Laporan Data Pembelian</a></li>
+                            <li><a href="{{ route('report-mutasi-masuk') }}">Laporan Mutasi Masuk</a></li>
+                            <li><a href="{{ route('report-mutasi-keluar') }}">Laporan Mutasi Keluar</a></li>
                             <li><a href="{{ route('riwayat.index') }}">Riwayat Obat </a></li>
                             <li><a href="{{ route('stok.index') }}">Stok per Lokasi </a> </li>
                         </ul>
