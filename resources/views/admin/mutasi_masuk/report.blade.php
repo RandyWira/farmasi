@@ -28,8 +28,8 @@
                             @foreach ($report_mutasi_masuk as $beli)
                             <tr>
                                 <td><a href="{{ route('mutasi_masuk.detail', $beli->no_mutasi) }}"> {{ $beli->no_mutasi }}</a></td>
-                                <td>{{ $beli->tanggal}}</td>
-                                <td>{{ $beli->dari}}</td>
+                                <td>{{ $beli->tanggal }}</td>
+                                <td>{{ $beli->dari }}</td>
                                 <td>
                                     <a href="{{ route('mutasi_masuk.cetak_nota', $beli->no_mutasi) }}" target="_blank" class="icon-print"> Cetak Data</a>
                                 </td>

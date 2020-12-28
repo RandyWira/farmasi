@@ -160,6 +160,7 @@ class MutasiMasukController extends Controller
     public function cetak_nota(Mutasimasuk $mutasi_masuk)
     {
         $today = Carbon::now()->isoFormat('D MMMM Y');
+        $config = DB::table('konfigurasi')->first();
         $detail_mutasi_masuk = Detailmutasimasuk::orderBy('no_mutasi', 'ASC')
                         ->join('mutasi_masuk', 'mutasi_masuk.no_mutasi', '=', 'detail_mutasi_masuk.no_mutasi')
                         ->join('barang', 'barang.id', '=', 'detail_mutasi_masuk.barang_id')
@@ -167,6 +168,6 @@ class MutasiMasukController extends Controller
                         ->where('detail_mutasi_masuk.no_mutasi', $mutasi_masuk->no_mutasi)
                         ->get();
         $judul = "Laporan Mutasi Masuk".$mutasi_masuk->nota_jual;
-        return view('admin.mutasi_masuk.nota', compact('mutasi_masuk','judul', 'detail_mutasi_masuk','today'));
+        return view('admin.mutasi_masuk.nota', compact('mutasi_masuk','judul', 'detail_mutasi_masuk','today', 'config'));
     }
 }

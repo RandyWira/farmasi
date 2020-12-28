@@ -7,7 +7,7 @@
                 @csrf
                 <div class="row">
                     <div class="span12">
-                        <div class="widget">
+                        <div class="card">
                             <div class="widget-header"> <i class="icon-money"></i>
                                 <h3> Penerimaan Obat</h3>
                             </div>
@@ -21,7 +21,12 @@
                                             </div>
                                             <div class="control-group">
                                                 <label for="tanggal" class="red lighten-4">Tanggal</label>
-                                                <input type="date" name="tanggal" id="tanggal" class="span6">
+                                                <input class="set-today" type="date" name=tanggal id="tanggal">
+                                                <script type="text/javascript">
+                                                    window.onload= function() {
+                                                        document.querySelector('.set-today').value=(new Date()).toISOString().substr(0,10);
+                                                    }
+                                                </script>
                                             </div>
                                             <div class="control-group">
                                                 <input type="hidden" name="supplier_id" class="supplier_id">

@@ -184,8 +184,15 @@ class PenjualanController extends Controller
     public function report()
     {
         $report_jual = Penjualan::orderBy('created_at', 'DESC')->get();
+        $now = now()->format('Y-m-d');
+        $penjualan_hariini = Penjualan::orderBy('created_at', 'DESC')->where('created_at', $now)->get();
 
-        return view('admin.penjualan.report', compact('report_jual'));
+        // $from = date('2020-11-20');
+        // $to = date('2020-12-20');
+        // $perTanggal = Penjualan::whereBetween('created_at',[$from, $to])->get();
+        // dd($perTanggal);
+
+        return view('admin.penjualan.report', compact('report_jual','penjualan_hariini'));
     }
 
     public function detail(Penjualan $penjualan)
@@ -203,6 +210,7 @@ class PenjualanController extends Controller
 
     public function cetak_nota(Penjualan $penjualan)
     {
+        $config = DB::table('konfigurasi')->first();
         $today = Carbon::now()->isoFormat('d MMMM Y');
         $detail_jual = Detailpenjualan::orderBy('nota_jual', 'ASC')
                             ->join('penjualan', 'penjualan.nota_jual', '=', 'detail_jual.nota_jual')
@@ -212,7 +220,7 @@ class PenjualanController extends Controller
                             ->get();
         $ppn = DB::table('set_ppn_jual')->first();
         $judul = "Nota Penjualan ".$penjualan->nota_jual;
-        return view('admin.penjualan.nota', compact('penjualan','judul', 'detail_jual','ppn','today'));
+        return view('admin.penjualan.nota', compact('penjualan','judul', 'detail_jual','ppn','today','config'));
     }
 
 }

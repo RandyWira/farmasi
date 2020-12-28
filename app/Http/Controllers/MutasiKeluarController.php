@@ -67,9 +67,9 @@ class MutasiKeluarController extends Controller
             DB::table('riwayat')->insert([
                 'barang_id' => $value['id'],
                 'stok_awal' => $cari_stok->stok,
-                'stok_akhir' => $cari_stok->stok+$value['qty'],
-                'masuk' => $value['qty'],
-                'keluar' => 0,
+                'stok_akhir' => $cari_stok->stok-$value['qty'],
+                'masuk' => 0,
+                'keluar' => $value['qty'],
                 'bagian' => 'Mutasi Keluar',
                 'user_id'=>Auth::id(),
                 'letak_id' => $request->id_letak,
@@ -77,7 +77,7 @@ class MutasiKeluarController extends Controller
                 'tanggal' => $request->tanggal,
                 'no_faktur' => $request->no_mutasi
             ]);
-            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok+$value['qty']]);
+            $cari_stok = DB::table('stok_per_lokasi')->where(['id_barang'=>$value['id'],'id_letak'=>$request->id_letak])->update(['stok'=>$cari_stok->stok-$value['qty']]);
         }
 
             DB::table('mutasi_keluar')->insert([

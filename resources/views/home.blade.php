@@ -2,25 +2,85 @@
 
 @section('content')
 <div class="row">
-    <div class="span12">
-        <div class="widget widget-nopad">
+    <div class="col span3">
+        <div class="card">
             <div class="widget-header"> <i class="icon-list-alt"></i>
-                <h3> Today's Stats</h3>
+                <h3>Total Barang</h3>
             </div>
             <div class="widget-content">
                 <div class="widget big-stats-container">
                     <div class="widget-content">
-                        <h6 class="bigstats">A fully responsive premium quality admin template built on Twitter Bootstrap by <a href="http://www.egrappler.com" target="_blank">EGrappler.com</a>.  These are some dummy lines to fill the area.</h6>
                         <div id="big_stats" class="cf">
-                            <div class="stat"> <i class="icon-anchor"></i> <span class="value">851</span> </div>
-                            <div class="stat"> <i class="icon-thumbs-up-alt"></i> <span class="value">423</span> </div>
-                            <div class="stat"> <i class="icon-twitter-sign"></i> <span class="value">922</span> </div>
-                            <div class="stat"> <i class="icon-bullhorn"></i> <span class="value">25%</span> </div>
+                            <div class="stat"> <i class="icon-tags"></i> <span class="value">{{ $total_barang }}</span> </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> <!-- End of span12 -->
+    </div> <!-- End of span3 -->
+
+    <div class="col span3">
+        <div class="card">
+            <div class="widget-header"> <i class="icon-list-alt"></i>
+                <h3>Total Barang</h3>
+            </div>
+            <div class="widget-content">
+                <div class="widget big-stats-container">
+                    <div class="widget-content">
+                        <div id="big_stats" class="cf">
+                            <div class="stat"> <i class="icon-tags"></i> <span class="value"></span> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End of span3 -->
+
+    <div class="col span6">
+        <div class="card">
+            <div class="widget-header"> <i class="icon-list-alt"></i>
+                <h3>Laba Hari Ini</h3>
+            </div>
+            <div class="widget-content">
+                <div class="widget big-stats-container">
+                    <div class="widget-content">
+                        <div id="big_stats" class="cf">
+                            <div class="stat"> <i class="icon-money"></i> <span class="value">@currency($laba)</span> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End of span3 -->
 </div><!-- End of Row -->
+
+<div class="row">
+    <div class="col span10">
+        <div class="card">
+            <div class="widget-header">
+                <i class="icon-time"></i>
+                <h3>Expire Barang Tahun Ini</h3>
+            </div>
+            <div class="widget-content">
+                <table class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Barang</th>
+                            <th>Tanggal Expire</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($barang_expd as $item)
+                        <tr>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->expire }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $barang_expd->links() }}
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

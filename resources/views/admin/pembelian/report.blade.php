@@ -30,7 +30,7 @@
                             @foreach ($report_beli as $beli)
                             <tr>
                                 <td><a href="{{ route('pembelian.detail', $beli->no_faktur) }}"> {{ $beli->no_faktur }}</a></td>
-                                <td>{{ $beli->created_at}}</td>
+                                <td>{{ $beli->created_at->isoFormat('D MMMM Y') }}</td>
                                 <td>@currency($beli->total_beli)</td>
                                 <td>@currency($beli->ppn_beli)</td>
                                 <td>@currency($beli->tagihan_beli)</td>

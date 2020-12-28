@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="span12">
-            <div class="widget">
+            <div class="card">
                 <div class="widget-header">
                     <i class="icon-truck"></i>
                     <h3>Data Supplier</h3>

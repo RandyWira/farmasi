@@ -17,6 +17,22 @@
             font-size: 20pt;
             text-align: center;
         }
+        h2 {
+            font-weight: bold;
+            font-size: 15pt;
+            text-align: center;
+        }
+        h3 {
+            font-weight: bold;
+            font-size: 10pt;
+            text-align: center;
+        }
+
+        h4 {
+            font-weight: bold;
+            font-size: 7pt;
+            text-align: center;
+        }
 
         table {
             border-collapse: collapse;
@@ -45,7 +61,9 @@
 </head>
 <body>
 
-    <h1 style="background-color: darkgrey"><u>Detail Penjualan </u></h1>
+    <h1>{{ $config->nama }}</h1>
+    <h2>{{ $config->alamat}}</h2>
+    <h3 style="background-color: darkgrey"><u>Detail Mutasi Masuk </u></h3>
     <table >
         <thead>
             <tr style="background: #A9A9A9">

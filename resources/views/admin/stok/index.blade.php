@@ -2,8 +2,12 @@
 
 @section('content')
     <div class="row">
-        <div class="col s12">
+        <div class="col s8">
             <div class="card">
+                <div class="widget-header">
+                    <i class="icon-tasks"></i>
+                    <h3>Sisa Stok</h3>
+                </div>
                 <div class="card-content">
                     <table class="responsive-table centered">
                         <thead class="teal lighten-3">
@@ -25,6 +29,17 @@
                     </table>
                 </div>
                 {{ $stok->links() }}
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card">
+                <div class="widget-header">
+                    <i class="icon-eye-open"></i>
+                    <h3>Detail</h3>
+                </div>
+                <div class="card-content">
+
+                </div>
             </div>
         </div>
     </div>

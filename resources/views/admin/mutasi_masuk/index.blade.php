@@ -7,10 +7,10 @@
                 @csrf
                 <div class="row">
                     <div class="span12">
-                        <div class="widget">
+                        <div class="card">
                             <div class="widget-header">
                                 <i class="icon-signin"></i>
-                                Mutasi Masuk Obat
+                                <h3>Mutasi Masuk Obat</h3>
                             </div>
                             <div class="widget-content">
                                 <div class="span4">
@@ -22,11 +22,16 @@
                                             </div>
                                             <div class="control-group">
                                                 <label for="tanggal" class="red lighten-4">Tanggal</label>
-                                                <input type="date" name="tanggal" id="tanggal">
+                                                <input class="set-today" type="date" name=tanggal id="tanggal">
+                                                <script type="text/javascript">
+                                                    window.onload= function() {
+                                                        document.querySelector('.set-today').value=(new Date()).toISOString().substr(0,10);
+                                                    }
+                                                </script>
                                             </div>
                                             <div class="control-group">
                                                 <label for="dari" class="red lighten-4">Dari</label>
-                                                <input type="text" name="dari" id="dari">
+                                                <input type="text" name="dari" id="dari" required>
                                             </div>
                                             <div class="control-group">
                                                 <label for="lokasi_id" class="red lighten-4">Lokasi Stok</label>

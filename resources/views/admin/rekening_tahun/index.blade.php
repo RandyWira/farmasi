@@ -14,10 +14,10 @@
                 </div>
             @endif
             <div class="col s8">
-                <div class="widget">
+                <div class="card">
                     <div class="widget-header">
                         <i class="icon-tags"></i>
-                        Rekening Tahun
+                        <h3>Rekening Tahun</h3>
                     </div>
                     <div class="widget-content">
                         <table class="responsive-table">
@@ -48,10 +48,10 @@
                 </div>
             </div>
             <div class="col s4">
-                <div class="widget">
+                <div class="card">
                     <div class="widget-header">
                         <i class="icon-pencil"></i>
-                        Input Saldo Awal Rekening
+                        <h3>Input Saldo Awal Rekening</h3>
                     </div>
                     <div class="widget-content">
                         <form action="{{ route('rekening_tahun.store') }}" method="POST" class="form-horizontal">

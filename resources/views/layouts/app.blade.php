@@ -134,6 +134,8 @@
                             <li><a href="{{ route('penjualan.index') }}"></i><span>Penjualan</span></a></li>
                             <li><a href="{{ route('mutasi_masuk.index') }}">Mutasi Masuk</a></li>
                             <li><a href="{{ route('mutasi_keluar.index') }}">Mutasi Keluar</a></li>
+                            <li><a href="#">Retur Penjualan</a></li>
+                            <li><a href="#">Retur Pembelian</a></li>
                         </ul>
                     </li>                    
                     <li class="dropdown">

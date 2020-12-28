@@ -25,7 +25,7 @@
                         </tr>
                         <tr>
                             <td>Tanggal Transaksi</td>
-                            <td>{{ $penjualan->created_at->isoFormat('d MMMM Y')}}</td>
+                            <td>{{ $penjualan->created_at->isoFormat('D MMMM Y')}}</td>
                             <td></td>
                             <td></td>
                             <td></td>

@@ -26,6 +26,8 @@ class Barang extends Model
         'id_satuan'
     ];
 
+    protected $dates = ['expire', 'created_at', 'updated_at'];
+
     // public function jenis()
     // {
     //     return $this->belongsTo(Jenis::class, 'id_jenis');
