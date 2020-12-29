@@ -181,18 +181,53 @@ class PenjualanController extends Controller
         //
     }
 
-    public function report()
+    public function report(Request $request)
     {
-        $report_jual = Penjualan::orderBy('created_at', 'DESC')->get();
+        $cari = $request->get('cari');
         $now = now()->format('Y-m-d');
-        $penjualan_hariini = Penjualan::orderBy('created_at', 'DESC')->where('created_at', $now)->get();
+        $month = now()->format('m');
+        $year = now()->format('Y');
+        $lastmonth = now()->format('m')-1;
+        $data['a'] = 0;
+        if($cari == 'semua'){
+            $carijudul = 'Semua';
+            $report_jual = Penjualan::orderBy('created_at', 'DESC')->get();
+        }elseif($cari == 'bulanini'){
+            $carijudul = 'Bulan Ini';
+            $report_jual = Penjualan::orderBy('created_at', 'DESC')->whereMonth('created_at', $month)->get();
+        }elseif($cari == 'bulanlalu'){
+            // dd($cari);
+            $carijudul = 'Bulan Lalu';
+            $report_jual = Penjualan::orderBy('created_at', 'DESC')->whereMonth('created_at', $lastmonth)->get();
+        }elseif($cari == 'tahunini'){
+            $carijudul = 'Tahun Ini';
+            $report_jual = Penjualan::orderBy('created_at', 'DESC')->whereYear('created_at', $year)->get();
+        }elseif($cari == 'hariini'){
+            $carijudul = 'Hari Ini';
+            $report_jual = Penjualan::orderBy('created_at', 'DESC')->where('created_at', $now)->get();
+        }elseif($cari == 'filter'){
+            $carijudul = 'Filter Pencarian';
+            $dari = $request->get('dari');
+            $ke = $request->get('ke');
+            $data['dari'] = $request->get('dari');
+            $data['ke'] = $request->get('ke');
+            $report_jual = Penjualan::orderBy('created_at', 'DESC')->whereBetween('created_at', [$dari,$ke])->get();
+        }else{
+            $carijudul = 'Hari Ini';
+            $report_jual = Penjualan::orderBy('created_at', 'DESC')->where('created_at', $now)->get();
+        }
+        // $penjualan_hariini = Penjualan::orderBy('created_at', 'DESC')->where('created_at', $now)->get();
 
         // $from = date('2020-11-20');
         // $to = date('2020-12-20');
         // $perTanggal = Penjualan::whereBetween('created_at',[$from, $to])->get();
         // dd($perTanggal);
 
-        return view('admin.penjualan.report', compact('report_jual','penjualan_hariini'));
+        return view('admin.penjualan.report', compact('report_jual','penjualan_hariini','data','carijudul','cari'));
+    }
+
+    public function FilterReport(Request $request){
+
     }
 
     public function detail(Penjualan $penjualan)

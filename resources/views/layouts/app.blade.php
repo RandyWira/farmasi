@@ -10,21 +10,6 @@
     <title>Dika Farma Smart</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- JAVASCRIPT -->
-    {{-- <script src="{{ asset('js/semantic.min.js') }}"></script> --}}
-    <script src="{{ asset('js/materialize.min.js') }}"></script> 
-    <script src="{{ asset('js/jquery-1.7.2.min.js') }}"></script>
-    <script src="{{ asset('js/excanvas.min.js') }}"></script> 
-    <script src="{{ asset('js/chart.min.js') }}" type="text/javascript"></script> 
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-    {{-- <script language="javascript" type="text/javascript" src="{{ asset('js/full-calendar/fullcalendar.min.js') }}"></script> --}}
-    <script src="{{ asset('js/base.js') }}"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -40,9 +25,29 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
             rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/datatable/datatables.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/pages/dashboard.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- JAVASCRIPT -->
+    {{-- <script src="{{ asset('js/semantic.min.js') }}"></script> --}}
+    <script src="{{ asset('js/materialize.min.js') }}"></script> 
+    <script src="{{ asset('js/jquery-1.7.2.min.js') }}"></script>
+    <script src="{{ asset('js/excanvas.min.js') }}"></script> 
+    <script src="{{ asset('js/autoNumeric.js') }}"></script> 
+    <script src="{{ asset('js/datatable/datatables.js') }}"></script> 
+    <script src="{{ asset('js/chart.min.js') }}" type="text/javascript"></script> 
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    {{-- <script language="javascript" type="text/javascript" src="{{ asset('js/full-calendar/fullcalendar.min.js') }}"></script> --}}
+    <script src="{{ asset('js/base.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <style>
         tbody {
@@ -245,6 +250,9 @@
             }
         });
     </script> --}}
+    <script type="text/javascript">
+        $('#example').DataTable();
+    </script>
 </body>
 </html>
 
