@@ -223,7 +223,7 @@ class PenjualanController extends Controller
         // $perTanggal = Penjualan::whereBetween('created_at',[$from, $to])->get();
         // dd($perTanggal);
 
-        return view('admin.penjualan.report', compact('report_jual','penjualan_hariini','data','carijudul','cari'));
+        return view('admin.penjualan.report', compact('report_jual','data','carijudul','cari'));
     }
 
     public function FilterReport(Request $request){
@@ -256,6 +256,60 @@ class PenjualanController extends Controller
         $ppn = DB::table('set_ppn_jual')->first();
         $judul = "Nota Penjualan ".$penjualan->nota_jual;
         return view('admin.penjualan.nota', compact('penjualan','judul', 'detail_jual','ppn','today','config'));
+    }
+
+    public function retur(Request $request){
+        $cari = $request->get('cari');
+        $now = now()->format('Y-m-d');
+        $year = now()->format('Y');
+        $month = now()->format('m');
+        $lastmonth = now()->format('m')-1;
+        $data['a'] = 0;
+        if($cari == 'semua'){
+            $carijudul = 'Semua';
+            $list_data = Penjualan::orderBy('created_at','DESC')->get();
+
+        }elseif($cari == 'hariini'){
+            $carijudul = 'Hari Ini';
+            $list_data = Penjualan::orderBy('created_at','DESC')->where('created_at',$now)->get();
+
+        }elseif($cari == 'bulanini'){
+            $carijudul = 'Bulan Ini';
+            $list_data = Penjualan::orderBy('created_at','DESC')->where('created_at',$month)->get();
+            
+        }elseif($cari == 'bulanlalu'){
+            $carijudul = 'Bulan Lalu';
+            $list_data = Penjualan::orderBy('created_at','DESC')->whereMonth('created_at',$lastmonth)->get();
+            
+        }elseif($cari == 'tahunini'){
+            $carijudul = 'Tahun Ini';
+            $list_data = Penjualan::orderBy('created_at','DESC')->whereYear('created_at',$year)->get();
+            
+        }elseif($cari == 'filter'){
+            $carijudul = 'Filter';
+            $data['dari'] = $request->get('dari');
+            $data['ke'] = $request->get('ke');
+            $list_data = Penjualan::orderBy('created_at','DESC')->whereBetween('created_at',[$data['dari'],$data['ke']])->get();
+            
+        }else{
+            $carijudul = 'Hari Ini';
+            $list_data = Penjualan::orderBy('created_at','DESC')->where('created_at',$now)->get();
+
+        }
+        return view('admin.penjualan.retur', compact('list_data','cari','carijudul','data'));
+    }
+
+    public function hapus($no){
+        $list = Detailpenjualan::join('barang', 'barang.id', '=', 'detail_jual.barang_id')
+                        ->select('detail_jual.*','barang.stok_minimal')
+                        ->where('detail_jual.nota_jual',$no)
+                        ->get();
+        foreach ($list as $key) {
+            $barang = Barang::where('id',$key->barang_id)->update(['stok_minimal'=>$key->stok_minimal+$key->jml_jual]);
+        }
+        Penjualan::where('nota_jual',$no)->delete();
+        Session::flash('delete-message', 'Berhasil diretur');
+        return redirect()->route('retur-penjualan');
     }
 
 }
