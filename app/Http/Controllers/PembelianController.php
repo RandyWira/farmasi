@@ -113,11 +113,45 @@ class PembelianController extends Controller
         return redirect()->route('report-beli');
     }
 
-    public function report()
+    public function report(Request $request)
     {
-        $report_beli = Pembelian::orderBy('created_at', 'DESC')->get();
+        $now = now()->format('Y-m-d');
+        $year = now()->format('Y');
+        $month = now()->format('m');
+        $lastmonth = now()->format('m') - 1;
+        $cari = $request->get('cari');
+        $data['a'] = 0;
+        if($cari == 'semua'){
+            $carijudul = 'Semua';
+            $report_beli = Pembelian::orderBy('created_at', 'DESC')->get();
 
-        return view('admin.pembelian.report', compact('report_beli'));
+        }elseif($cari == 'hariini'){
+            $carijudul = 'Hari Ini';
+            $report_beli = Pembelian::orderBy('created_at', 'DESC')->where('created_at',$now)->get();
+
+        }elseif($cari == 'bulanini'){
+            $carijudul = 'Bulan Ini';
+            $report_beli = Pembelian::orderBy('created_at', 'DESC')->whereMonth('created_at',$month)->get();
+            
+        }elseif($cari == 'bulanlalu'){
+            $carijudul = 'Bulan Lalu';
+            $report_beli = Pembelian::orderBy('created_at', 'DESC')->whereMonth('created_at',$lastmonth)->get();
+            
+        }elseif($cari == 'tahunini'){
+            $carijudul = 'Tahun Ini';
+            $report_beli = Pembelian::orderBy('created_at', 'DESC')->whereYear('created_at',$year)->get();
+        }elseif($cari == 'filter'){
+            $data['ke'] = $request->get('ke');
+            $data['dari'] = $request->get('dari');
+            $carijudul = 'Filter';
+            $report_beli = Pembelian::orderBy('created_at', 'DESC')->whereBetween('created_at',[$data['dari'],$data['ke']])->get();
+            
+        }else{
+            $carijudul = 'Hari Ini';
+            $report_beli = Pembelian::orderBy('created_at', 'DESC')->where('created_at',$now)->get();
+        }
+
+        return view('admin.pembelian.report', compact('report_beli','cari','carijudul','data'));
     }
 
     public function detail(Pembelian $pembelian)
@@ -149,5 +183,59 @@ class PembelianController extends Controller
         $ppn = DB::table('set_ppn_jual')->first();
         $judul = "Nota pembelian ".$pembelian->no_faktur;
         return view('admin.pembelian.nota', compact('pembelian','judul', 'detail_beli','ppn','today','nama_supplier'));
+    }
+
+    public function retur(Request $request){
+        $cari = $request->get('cari');
+        $now = now()->format('Y-m-d');
+        $year = now()->format('Y');
+        $month = now()->format('m');
+        $lastmonth = now()->format('m')-1;
+        $data['a'] = 0;
+        if($cari == 'semua'){
+            $carijudul = 'Semua';
+            $list_data = Pembelian::orderBy('created_at','DESC')->get();
+
+        }elseif($cari == 'hariini'){
+            $carijudul = 'Hari Ini';
+            $list_data = Pembelian::orderBy('created_at','DESC')->where('created_at',$now)->get();
+
+        }elseif($cari == 'bulanini'){
+            $carijudul = 'Bulan Ini';
+            $list_data = Pembelian::orderBy('created_at','DESC')->where('created_at',$month)->get();
+            
+        }elseif($cari == 'bulanlalu'){
+            $carijudul = 'Bulan Lalu';
+            $list_data = Pembelian::orderBy('created_at','DESC')->whereMonth('created_at',$lastmonth)->get();
+            
+        }elseif($cari == 'tahunini'){
+            $carijudul = 'Tahun Ini';
+            $list_data = Pembelian::orderBy('created_at','DESC')->whereYear('created_at',$year)->get();
+            
+        }elseif($cari == 'filter'){
+            $carijudul = 'Filter';
+            $data['dari'] = $request->get('dari');
+            $data['ke'] = $request->get('ke');
+            $list_data = Pembelian::orderBy('created_at','DESC')->whereBetween('created_at',[$data['dari'],$data['ke']])->get();
+            
+        }else{
+            $carijudul = 'Hari Ini';
+            $list_data = Pembelian::orderBy('created_at','DESC')->where('created_at',$now)->get();
+
+        }
+        return view('admin.pembelian.retur', compact('list_data','cari','carijudul','data'));
+    }
+
+    public function hapus($no){
+        $list = Detailpembelian::join('barang', 'barang.id', '=', 'detail_beli.barang_id')
+                        ->select('detail_beli.*','barang.stok_minimal')
+                        ->where('detail_beli.no_faktur',$no)
+                        ->get();
+        foreach ($list as $key) {
+            $barang = Barang::where('id',$key->barang_id)->update(['stok_minimal'=>$key->stok_minimal-$key->jml_beli]);
+        }
+        Pembelian::where('no_faktur',$no)->delete();
+        Session::flash('delete-message', 'Berhasil diretur');
+        return redirect()->route('retur-pembelian');
     }
 }

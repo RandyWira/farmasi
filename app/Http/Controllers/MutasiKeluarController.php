@@ -137,11 +137,42 @@ class MutasiKeluarController extends Controller
         //
     }
 
-    public function report()
+    public function report(Request $request) 
     {
-        $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->get();
+        $cari = $request->get('cari');
+        $now = now()->format('Y-m-d');
+        $year = now()->format('Y');
+        $month = now()->format('m');
+        $lastmonth = now()->format('m')-1;
+        $data['a'] = 0;
 
-        return view('admin.mutasi_keluar.report', compact('report_mutasi_keluar'));
+        if($cari == 'semua'){
+            $carijudul = 'Semua';
+            $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->get();
+        }elseif($cari == 'hariini'){
+            $carijudul = 'Hari Ini';
+            $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->where('tanggal',$now)->get();
+        }elseif($cari == 'bulanini'){
+            $carijudul = 'Bulan Ini';
+            $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->whereMonth('tanggal',$month)->get();
+        }elseif($cari == 'bulanlalu'){
+            $carijudul = 'Bulan Lalu';
+            $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->whereMonth('tanggal',$lastmonth)->get();
+        }elseif($cari == 'tahunini'){
+            $carijudul = 'Tahun Ini';
+            $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->whereYear('tanggal',$year)->get();
+        }elseif($cari == 'filter'){
+            $carijudul = 'Filter';
+            $data['dari'] = $request->get('dari');
+            $data['ke'] = $request->get('ke');
+            $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->whereBetween('tanggal',[$data['dari'],$data['ke']])->get();
+        }else{
+            $carijudul = 'Hari Ini';
+            $report_mutasi_keluar = Mutasikeluar::orderBy('tanggal', 'DESC')->where('tanggal',$now)->get();
+        }
+
+
+        return view('admin.mutasi_keluar.report', compact('report_mutasi_keluar','cari','carijudul','data'));
     }
 
     public function detail(Mutasikeluar $mutasi_keluar)
