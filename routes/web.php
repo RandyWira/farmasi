@@ -55,10 +55,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     // modul penjualan
     Route::get('report', 'PenjualanController@report')->name('report');
+    Route::get('retur-jual', 'PenjualanController@retur')->name('retur-penjualan');
+    Route::get('retur-jual/{no}', 'PenjualanController@hapus')->name('retur-penjualan-destroy');
     Route::get('/penjualan/{penjualan}/detail', 'PenjualanController@detail')->name('penjualan.detail');
     Route::get('/penjualan/{penjualan}/cetak', 'PenjualanController@cetak_nota')->name('penjualan.cetak_nota');
     // modul pembelian
     Route::get('report-beli', 'PembelianController@report')->name('report-beli');
+    Route::get('retur-beli', 'PembelianController@retur')->name('retur-pembelian');
+    Route::get('retur-beli/{no}', 'PembelianController@hapus')->name('retur-pembelian-destroy');
     Route::get('/pembelian/{pembelian}/cetak', 'PembelianController@cetak_nota')->name('pembelian.cetak_nota');
     Route::get('/pembelian/{pembelian}/detail', 'PembelianController@detail')->name('pembelian.detail');
     // modul mutasi masuk
