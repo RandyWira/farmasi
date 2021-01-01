@@ -30,7 +30,7 @@
                         <i class="icon-plus"></i>
                     </a>
                 </span>
-                <table class="responsive-table centered">
+                <table id="example" class="responsive-table centered ">
                     <thead class="teal lighten-3">
                         <tr>
                             <th>Nama Obat</th>
@@ -40,7 +40,7 @@
                             <th>Harga Jual Langganan</th>
                             <th>Harga Jual Umum</th>
                             <th>Tanggal Expire</th>
-                            <th colspan="2">Action</th>
+                            <th >Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,10 +53,8 @@
                             <td>@currency($item->harga_langganan)</td>
                             <td>@currency($item->harga_umum)</td>
                             <td>{{ $item->expire }}</td>
-                            <td>
+                            <td width="16%">
                                 <a href="{{ route('barang.edit', $item->id) }}" class="icon-edit"> Edit</a>
-                            </td>
-                            <td>
                                 <a href="" onclick="if(confirm('APAKAH DATA INI INGIN ANDA HAPUS ???'))event.preventDefault(); document.getElementById('delete-{{$item->id}}').submit();" class="icon-trash"> Hapus</a>
                                 <form id="delete-{{$item->id}}" method="post" action="{{route('barang.destroy',$item->id)}}" style="display: none;">
                                 @csrf
@@ -69,7 +67,7 @@
                 </table>
             </div>
 
-            {{ $barang->links() }}
+            <!-- {{ $barang->links() }} -->
 
         </div>
     </div>

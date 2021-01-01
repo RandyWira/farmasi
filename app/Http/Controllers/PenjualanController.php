@@ -300,12 +300,12 @@ class PenjualanController extends Controller
     }
 
     public function hapus($no){
-        $list = Detailpenjualan::join('barang', 'barang.id', '=', 'detail_jual.barang_id')
-                        ->select('detail_jual.*','barang.stok_minimal')
+        $list = Detailpenjualan::join('stok_per_lokasi', 'stok_per_lokasi.id_barang', '=', 'detail_jual.barang_id')
+                        ->select('detail_jual.*','stok_per_lokasi.stok')
                         ->where('detail_jual.nota_jual',$no)
                         ->get();
         foreach ($list as $key) {
-            $barang = Barang::where('id',$key->barang_id)->update(['stok_minimal'=>$key->stok_minimal+$key->jml_jual]);
+            $barang = DB::table('stok_per_lokasi')->where('id_barang',$key->barang_id)->update(['stok'=>$key->stok+$key->jml_jual]);
         }
         Penjualan::where('nota_jual',$no)->delete();
         Session::flash('delete-message', 'Berhasil diretur');
