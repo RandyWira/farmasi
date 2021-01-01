@@ -227,12 +227,12 @@ class PembelianController extends Controller
     }
 
     public function hapus($no){
-        $list = Detailpembelian::join('barang', 'barang.id', '=', 'detail_beli.barang_id')
-                        ->select('detail_beli.*','barang.stok_minimal')
+        $list = Detailpembelian::join('stok_per_lokasi', 'stok_per_lokasi.id_barang', '=', 'detail_beli.barang_id')
+                        ->select('detail_beli.*','stok_per_lokasi.stok')
                         ->where('detail_beli.no_faktur',$no)
                         ->get();
         foreach ($list as $key) {
-            $barang = Barang::where('id',$key->barang_id)->update(['stok_minimal'=>$key->stok_minimal-$key->jml_beli]);
+            $barang = DB::table('stok_per_lokasi')->where('id_barang',$key->barang_id)->update(['stok'=>$key->stok-$key->jml_beli]);
         }
         Pembelian::where('no_faktur',$no)->delete();
         Session::flash('delete-message', 'Berhasil diretur');
