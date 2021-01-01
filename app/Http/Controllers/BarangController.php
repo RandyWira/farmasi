@@ -38,7 +38,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $jenis = Jenis::orderBy('nama', 'ASC')->pluck('nama', 'id_jenis');
+        $jenis = DB::table('set_harga_jual')->orderBy('id_jenis', 'ASC')->select('set_harga_jual.*','jenis.nama')->join('jenis','jenis.id_jenis','=','set_harga_jual.id_jenis')->get();
         $set_persentase_jual = Setpersentasejual::orderBy('id_persen', 'DESC')->limit(1)->get();
         $golongan = Golongan::orderBy('golongan', 'ASC')->get();
         $kategori = Kategori::orderBy('nama', 'ASC')->get();
@@ -110,7 +110,7 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
-        $jenis = Jenis::orderBy('nama', 'ASC')->pluck('nama', 'id_jenis');
+        $jenis = DB::table('set_harga_jual')->orderBy('id_jenis', 'ASC')->select('set_harga_jual.*','jenis.nama')->join('jenis','jenis.id_jenis','=','set_harga_jual.id_jenis')->get();
         $set_persentase_jual = Setpersentasejual::orderBy('id_persen', 'DESC')->limit(1)->get();
         $golongan = Golongan::orderBy('golongan', 'ASC')->get();
         $kategori = Kategori::orderBy('nama', 'ASC')->get();
@@ -179,5 +179,11 @@ class BarangController extends Controller
         $barang->delete();
         Session::flash('delete-message', 'Data Barang berhasil dihapus');
         return redirect()->route('barang.index');
+    }
+    public function cari_jenis(Request $request){
+        $id_jenis = $request->get('cari');
+        $list = DB::table('set_harga_jual')->where('id_jenis',$id_jenis)->first();
+        
+        return response()->json($list);        
     }
 }
