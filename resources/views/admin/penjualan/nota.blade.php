@@ -63,14 +63,13 @@
 
     <h1>{{ $config->nama }}</h1>
     <h2>{{ $config->alamat}}</h2>
-    <h3 style="background-color: darkgrey"><u>Detail Mutasi Masuk </u></h3>
+    <h3 style="background-color: darkgrey"><u>Nota Penjualan</u></h3>
     <table >
         <thead>
             <tr style="background: #A9A9A9">
                 <th>No Faktur</th>
                 <th>Tanggal</th>
                 <th>Pelanggan</th>
-                <th>Pembayaran</th>
             </tr>
         </thead>
         <tbody align="center">
@@ -78,19 +77,16 @@
                 <td>{{$penjualan->nota_jual}}</td>
                 <td>{{$penjualan->created_at}}</td>
                 <td>{{$penjualan->nama_pembeli}}</td>
-                <td>{{$penjualan->cara_bayar}}</td>
             </tr>
         </tbody>
     </table>
     <hr>
-    <table border="1">
+    <table border="0">
         <thead>
             <tr style="background: #A9A9A9">
                 <th>Nama Obat</th>
                 <th>Jumlah</th>
                 <th>Harga Jual</th>
-                <th>Diskon</th>
-                <th>PPN</th>
                 <th>Nilai Total</th>
             </tr>
         </thead>
@@ -108,82 +104,54 @@
             ?>
             <tr>
                 <td>{{$i->nama}}</td>
-                <td>{{$i->jml_jual}}</td>
-                <td>@currency($i->harga_jual)</td>
-                <td>{{$i->diskon}}</td>
-                <td>{{$ppn->ppn}} %</td>
-                <td>{{$i->total_jual}}</td>
+                <td align="center">{{$i->jml_jual}}</td>
+                <td align="center">@currency($i->harga_jual)</td>
+                <td align="center">@currency($i->total_jual)</td>
             </tr>
             @endforeach
         </tbody>
         <tfoot style="text-align: right;font-weight:bold">
             <tr>
-                <td colspan="4">Diskon</td>
-                <td>PPN</td>
-                <td>Grand Total</td>
+                <td colspan="3">
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    @currency($diskon)
+                <td colspan="3" align="right">
+                    PPN
                 </td>
-                <td>
-                    {{$ppn->ppn}} %
-                </td>
-                <td>
-                    @currency($grand_total)
+                <td align="center">
+                    @currency($penjualan->ppn_jual)
                 </td>
             </tr>
         </tfoot>
     </table>
     <hr>
     <table style="text-align:right;font-weight:bold" >
-        <tr style>
-            <td width="87%;">Harga PPN</td>
-            <td></td>
-            <td>@currency($penjualan->ppn_jual)</td>
-        </tr>
         <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td>Total Penjualan Obat :</td>
-            <td style="background-color: #48C9B0"></td>
-            <td style="background-color: #48C9B0">@currency($penjualan->tagihan_jual)</td>
+            <td>Grand Total :</td>
+            <td>@currency($penjualan->tagihan_jual)</td>
+        </tr>
+        <tr>
+            <td>Bayar :</td>
+            <td>@currency($penjualan->bayar)</td>
+        </tr>
+        <tr>
+            <td>Kembalian :</td>
+            <td>@currency($penjualan->kembalian)</td>
         </tr>
     </table>
-    <br>
-
-    <table style="text-align: center">
-        <tr >
-            <td width="70%"></td>
-            <td>Payakumbuh, {{$today}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Penanggung Jawab</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><u><b>{{ Auth::user()->name }}</b></u></td></tr>
-    </table>
+    <p align="center">
+        Dika Farma Smart
+    </p>
 </body>
 <script>
     window.print();
