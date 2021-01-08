@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Sethargajual extends Model
 {
     protected $table = 'set_harga_jual';
+    protected $primaryKey = 'id';
+
+    public $incrementing = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'h_grosir',
@@ -14,8 +18,8 @@ class Sethargajual extends Model
         'h_umum'
     ];
 
-    public function barang()
+    public function jenis()
     {
-        return $this->belongsTo(Barang::class, 'id_barang');
+        return $this->hasOne(jenis::class, 'id_jenis');
     }
 }

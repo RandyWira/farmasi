@@ -161,7 +161,7 @@
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Master Data Obat BHP</span> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('jenis.index') }}">Pengaturan Barang</a></li>
-                            <li><a href="{{ route('set_persentase_jual.index') }}">Set Harga Jual Barang</a></li>
+                            <li><a href="{{ route('set_harga_jual.index') }}">Set Harga Jual Barang</a></li>
                             <li><a href="{{ route('barang.index') }}">Obat BHP</a></li>
                         </ul>
                     </li>

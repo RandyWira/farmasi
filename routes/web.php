@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('home', 'HomeController');
     Route::resource('jenis', 'JenisController');
     Route::resource('barang', 'BarangController');
-    Route::resource('set_persentase_jual', 'SetpersentasejualController');
+    // Route::resource('set_persentase_jual', 'SetpersentasejualController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('opname', 'OpnameController');
     Route::resource('golongan', 'GolonganController');
@@ -53,6 +53,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('stok', 'StokperlokasiController');
     Route::resource('penjualan', 'PenjualanController');
     Route::resource('pembelian', 'PembelianController');
+
+    Route::resource('set_harga_jual', 'SethargajualController')->except(['destroy', 'show']);
 
     // modul penjualan
     Route::get('report', 'PenjualanController@report')->name('report');

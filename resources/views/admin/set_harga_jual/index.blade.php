@@ -23,24 +23,22 @@
                     <table class="responsive-table centered">
                         <thead class="teal lighten-3">
                             <tr>
-                                <th>User yg Menginput</th>
-                                <th>Tanggal Input</th>
-                                <th>Persentase Grosir</th>
-                                <th>Persentase Langganan</th>
-                                <th>Persentase umum</th>
+                                <th>Jenis Obat</th>
+                                <th>Grosir</th>
+                                <th>Langganan</th>
+                                <th>Umum</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($set_persentase_jual as $persentase)
+                            @foreach ($set_harga_jual as $harjul)
                             <tr>                                
-                                <td>{{ $persentase->user->name }}</td>
-                                <td>{{ $persentase->tgl_input }}</td>
-                                <td>{{ $persentase->persen_grosir }} %</td>
-                                <td>{{ $persentase->persen_langganan }} %</td>
-                                <td>{{ $persentase->persen_umum }} %</td>
+                                <td>{{ $harjul->jenis->nama }}</td>
+                                <td>{{ $harjul->h_grosir }}</td>
+                                <td>{{ $harjul->h_langganan }}</td>
+                                <td>{{ $harjul->h_umum }}</td>
                                 <td>
-                                    <a href="{{ route('set_persentase_jual.edit', $persentase->id_persen) }}" class="icon-edit"> Edit</a>
+                                    <a href="{{ route('set_harga_jual.edit', $harjul->id) }}" class="icon-edit"> Edit</a>
                                 </td>
                             </tr>
                             @endforeach
