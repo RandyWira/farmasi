@@ -27,7 +27,7 @@ class BarangController extends Controller
         $barang = Barang::orderBy('nama', 'ASC')
                     ->join('satuan', 'satuan.id_satuan', '=', 'barang.id_satuan')
                     ->select('barang.*', 'satuan.satuan')
-                    ->paginate(20);
+                    ->get();
         return view('admin.barang.index', compact('barang'));
     }   
 

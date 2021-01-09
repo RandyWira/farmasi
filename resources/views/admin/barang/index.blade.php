@@ -66,9 +66,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- {{ $barang->links() }} -->
-
         </div>
     </div>
 </div>

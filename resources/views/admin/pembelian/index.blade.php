@@ -64,12 +64,12 @@
                                                 <input type="number" name="total_hpp" id="total_hpp" class="span1 total_hpp" readonly>
                                             </div>
                                             <div class="control-group">
-                                                <label for="" class="red lighten-4">Emblase + Tuslah</label>
-                                                <input type="number" name="emblase_tuslah" class="span1 emblase_tuslah" placeholder="Tagihan" readonly>
-                                            </div>
-                                            <div class="control-group">
                                                 <label for="" class="red lighten-4">Tagihan + PPN</label>
                                                 <input type="number" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="" class="red lighten-4">Potongan</label>
+                                                <input type="number" name="potongan" class="span1 potongan" placeholder="Potongan">
                                             </div>
                                             <div class="control-group">
                                                 <label for="bayar" class="red lighten-4">Dibayarkan</label>
@@ -120,10 +120,6 @@
                                             <td>
                                                 <label for="" class="teal lighten-3">Harga Beli (Rp)</label>
                                                 <input type="number" name="jual[0][harga_beli]" class="span1 harga_beli" placeholder="Harga Beli">
-                                            </td>
-                                            <td>
-                                                <label for="" class="teal lighten-3">Harga Jual (Rp)</label>
-                                                <input type="number" name="jual[0][harga_umum]" class="span1 harga_umum" placeholder="Harga_umum" readonly>
                                             </td>
                                             <td>
                                                 <label for="" class="teal lighten-3">Sub-Total (Rp)</label>
@@ -208,9 +204,6 @@
                             <input type="number" name="jual['+jual+'][harga_beli]" class="span1 harga_beli" placeholder="Harga Beli"> \
                         </td> \
                         <td> \
-                            <input type="number" name="jual['+jual+'][harga_umum]" class="span1 harga_umum" placeholder="Harga" readonly> \
-                        </td> \
-                        <td> \
                             <input type="number" name="jual['+jual+'][subtotal]" class="span1 subtotal" placeholder="Subtotal" readonly> \
                         </td> \
                         <td> \
@@ -225,6 +218,12 @@
                     </tr> \
                 ')  
         })
+
+        $(document).on('change', '.potongan', function(){
+            mencari_total()
+            // mencari_potongan()
+        })
+
 
         $(document).on('keyup', '.caribarang', function(){
             var barang = $(this).val()
@@ -281,7 +280,7 @@
             var hpp = baris_barang.find('.hpp');
 
             hpp.val(parseInt(qty)*parseInt(harga_beli.val()))
-            subtotal.val(parseInt(qty)*parseInt(harga_umum.val()))
+            subtotal.val(parseInt(qty)*parseInt(harga_beli.val()))
         })
 
         $(document).on('keyup','.qty', function(){
@@ -295,7 +294,7 @@
             var hpp = baris_barang.find('.hpp');
 
             hpp.val(parseInt(qty)*parseInt(harga_beli.val()))
-            subtotal.val(parseInt(qty)*parseInt(harga_umum.val()))
+            subtotal.val(parseInt(qty)*parseInt(harga_beli.val()))
             total.val(subtotal.val())-(parseInt(diskon.val()))
         })
 
@@ -308,6 +307,7 @@
             total.val(subtotal.val()-diskon)
             total_hpp()
             mencari_total()
+            mencari_potongan()
             // laba()
         })
 
@@ -320,6 +320,7 @@
             total.val(subtotal.val()-diskon)
             total_hpp()
             mencari_total()
+            mencari_potongan()
             // laba()
         })
 
@@ -341,24 +342,37 @@
         //     // })
         //     console.log(baris_b.find('.total').val())
         // })
+
+        function mencari_potongan() {
+            var angka = 0;
+            var input_potongan = $('.potongan')
+            $('.baris-data').each(function(){
+                var cari_potongan = $(this).find('.diskon').val();
+                angka += parseInt(cari_potongan);
+            })
+            input_potongan.val(angka)
+        }
+
         function mencari_total(){
             var angka = 0;
             var ppn = $('.ppn').val()
+            var potongan = $('.potongan').val()
             var input_harga_ppn = $('.harga-ppn')
             var input_tagihan = $('.tagihan')
             $('.baris-data').each(function(){
-                var cari_total = $(this).find('.total').val();
+                var cari_total = $(this).find('.hpp').val();
                 angka += parseInt(cari_total);
             })
             // console.log(angka);
             $('.total-keseluruhan').val(angka)
             var harga_ppn = angka * ppn / 100
-            var tagihan = harga_ppn + angka
+            var tagihan = harga_ppn + angka - potongan
 
             input_harga_ppn.val(harga_ppn)
             input_tagihan.val(tagihan) 
             // console.log(tagihan)
         } 
+
 
         function total_hpp() {
             var nilai = 0;

@@ -42,32 +42,34 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('home', 'HomeController');
     Route::resource('jenis', 'JenisController');
     Route::resource('barang', 'BarangController');
-    // Route::resource('set_persentase_jual', 'SetpersentasejualController');
     Route::resource('satuan', 'SatuanController');
     Route::resource('opname', 'OpnameController');
     Route::resource('golongan', 'GolonganController');
     Route::get('cari', 'OpnameController@loaddata')->name('cari');
     Route::get('cari-jenis', 'BarangController@cari_jenis')->name('cari-jenis');
-    Route::get('cari-supplier', 'PembelianController@loaddata')->name('carisupplier');
     Route::resource('riwayat', 'RiwayatController');
     Route::resource('stok', 'StokperlokasiController');
-    Route::resource('penjualan', 'PenjualanController');
-    Route::resource('pembelian', 'PembelianController');
-
+    
+    //Set Persentase Harga Jual
     Route::resource('set_harga_jual', 'SethargajualController')->except(['destroy', 'show']);
-
+    
     // modul penjualan
+    Route::resource('penjualan', 'PenjualanController');
     Route::get('report', 'PenjualanController@report')->name('report');
     Route::get('retur-jual', 'PenjualanController@retur')->name('retur-penjualan');
     Route::get('retur-jual/{no}', 'PenjualanController@hapus')->name('retur-penjualan-destroy');
     Route::get('/penjualan/{penjualan}/detail', 'PenjualanController@detail')->name('penjualan.detail');
     Route::get('/penjualan/{penjualan}/cetak', 'PenjualanController@cetak_nota')->name('penjualan.cetak_nota');
+    
     // modul pembelian
+    Route::resource('pembelian', 'PembelianController');
     Route::get('report-beli', 'PembelianController@report')->name('report-beli');
     Route::get('retur-beli', 'PembelianController@retur')->name('retur-pembelian');
     Route::get('retur-beli/{no}', 'PembelianController@hapus')->name('retur-pembelian-destroy');
     Route::get('/pembelian/{pembelian}/cetak', 'PembelianController@cetak_nota')->name('pembelian.cetak_nota');
     Route::get('/pembelian/{pembelian}/detail', 'PembelianController@detail')->name('pembelian.detail');
+    Route::get('cari-supplier', 'PembelianController@loaddata')->name('carisupplier');
+    
     // modul mutasi masuk
     Route::get('report-mutasi-masuk', 'MutasiMasukController@report')->name('report-mutasi-masuk');
     Route::get('/report-mutasi-masuk/{mutasi_masuk}/detail', 'MutasiMasukController@detail')->name('mutasi_masuk.detail');
@@ -76,12 +78,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('report-mutasi-keluar', 'MutasiKeluarController@report')->name('report-mutasi-keluar');
     Route::get('/report-mutasi-keluar/{mutasi_keluar}/detail', 'MutasiKeluarController@detail')->name('mutasi_keluar.detail');
     Route::get('/report-mutasi-keluar/{mutasi_keluar}/cetak', 'MutasiKeluarController@cetak_nota')->name('mutasi_keluar.cetak_nota');
-
+    
     Route::resource('mutasi_masuk', 'MutasiMasukController');
     Route::resource('mutasi_keluar', 'MutasiKeluarController');
     Route::resource('supplier', 'SupplierController');
     Route::resource('akun', 'AkunController');
     Route::resource('rekening_tahun', 'RekeningtahunController');
-
+    
     Route::resource('konfigurasi', 'KonfigurasiController');
+    
+    // Route::resource('set_persentase_jual', 'SetpersentasejualController');
 });
