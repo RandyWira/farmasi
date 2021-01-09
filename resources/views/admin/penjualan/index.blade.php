@@ -61,7 +61,7 @@
                                         <div class="widget-content">
                                             <div class="control-group">
                                                 <label for="" class="red lighten-4">Total HPP</label>
-                                                <input type="number" name="total_hpp" id="total_hpp" class="span1 total_hpp" readonly>
+                                                <input type="text" name="total_hpp" id="total_hpp" class="span1 total_hpp" readonly>
                                             </div>
                                             <div class="control-group">
                                                 <label for="" class="red lighten-4">Emblase + Tuslah</label>
@@ -69,15 +69,23 @@
                                             </div>
                                             <div class="control-group">
                                                 <label for="" class="red lighten-4">Tagihan + PPN</label>
-                                                <input type="number" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
+                                                <input type="text" name="tagihan" class="span1 tagihan" placeholder="Tagihan" readonly>
                                             </div>
                                             <div class="control-group">
                                                 <label for="bayar" class="red lighten-4">Dibayarkan</label>
-                                                <input type="number" name="bayar" id="bayar" class="span6" required>
+                                                <input type="number" name="bayar" id="bayar" class="span6 bayar" required>
                                             </div>
                                             <div class="control-group">
                                                 <label for="kembalian" class="red lighten-4">Kembalian</label>
-                                                <input type="number" name="kembalian" id="kembalian" class="span6" required>
+                                                <input type="text" name="kembalian" id="kembalian" class="span6 kembalian" required >
+                                            </div>
+                                            <div class="control-group">
+                                                <label for="dd" class="red lighten-4">Jenis Pembelian</label>
+                                                <select name="jenis_beli" id="jenis_beli" class="jenis_beli span3">
+                                                    <option value="umum">Harga Umum</option>
+                                                    <option value="langganan">Harga Langganan</option>
+                                                    <option value="grosir">Harga Grosir</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +113,7 @@
                                         </tr>
                                     </thead> --}}
                                     <tbody id="list-form">
-                                        <tr class="baris-data">
+                                        <tr class="baris-data testing">
                                             <td>
                                                 <label for="" class="teal lighten-3">Nama Barang</label>
                                                 <input type="text" name="jual[0][nama]" class="span6 caribarang" autocomplete="off" list="list-data" placeholder="Nama Obat">
@@ -146,7 +154,7 @@
                                     <tr>
                                         <td colspan="2">
                                             <label for="" class="teal lighten-3">Total (Tanpa PPN)</label>
-                                            <input type="number" name="total_keseluruhan" class="span1 total-keseluruhan" placeholder="Jumlah Total (Tanpa PPN)" readonly>
+                                            <input type="text" name="total_keseluruhan" class="span1 total-keseluruhan" placeholder="Jumlah Total (Tanpa PPN)" readonly>
                                         </td>
                                         <td>
                                             <label for="" class="teal lighten-3">PPN (%)</label>
@@ -154,7 +162,7 @@
                                         </td>
                                         <td>
                                             <label for="" class="teal lighten-3">Harga PPN</label>
-                                            <input type="number" name="harga_ppn" class="span1 harga-ppn" placeholder="Harga PPN" readonly>
+                                            <input type="text" name="harga_ppn" class="span1 harga-ppn" placeholder="Harga PPN" readonly>
                                         </td>
                                     </tr>
                                     {{-- <tr>
@@ -189,7 +197,7 @@
         var jual = 0
         $('#tambah-input').click(function(){
           ++jual
-          list.append('<tr class="baris-data"> \
+          list.append('<tr class="baris-data testing"> \
                             <td> \
                                 <input type="text" name="jual['+jual+'][nama]" class="span6 caribarang" autocomplete="off" list="list-data" placeholder="Nama Obat"> \
                             </td> \
@@ -220,16 +228,15 @@
                         </tr> \
                     ')  
         })
-
         $(document).on('keyup', '.caribarang', function(){
             var barang = $(this).val()
             var baris_b = $(this).parents('.baris-data')
-
+            var jenis_beli = $('.jenis_beli').val();
             $.ajax({
-                url:"{{ route ('cari') }}",
+                url:"{{ route ('cari-barang') }}",
                 dataType:'JSON',
                 type:'GET',
-                data:"&cari="+barang,
+                data:"&cari="+barang+"&jenis="+jenis_beli,
                 success:function(data){
                     $.each(data, function(index, obj){
                         // alert(obj.nama)
@@ -254,13 +261,18 @@
         $(document).on('change','.qty', function(){
             var qty = $(this).val();
             var baris_barang = $(this).parents('.baris-data');
+            var diskon = baris_barang.find('.diskon');
             var harga_umum = baris_barang.find('.harga_umum');
             var subtotal = baris_barang.find('.subtotal');
+            var total = baris_barang.find('.total');
             var harga_beli = baris_barang.find('.harga_beli');
             var hpp = baris_barang.find('.hpp');
 
             hpp.val(parseInt(qty)*parseInt(harga_beli.val()))
             subtotal.val(parseInt(qty)*parseInt(harga_umum.val()))
+            total.val(subtotal.val())-(parseInt(diskon.val()))
+            total_hpp()
+            mencari_total()
         })
 
         $(document).on('keyup','.qty', function(){
@@ -276,7 +288,11 @@
             hpp.val(parseInt(qty)*parseInt(harga_beli.val()))
             subtotal.val(parseInt(qty)*parseInt(harga_umum.val()))
             total.val(subtotal.val())-(parseInt(diskon.val()))
+            total_hpp()
+            mencari_total()
         })
+
+
 
         $(document).on('change', '.diskon', function(){
             var diskon = $(this).val();
@@ -303,14 +319,14 @@
         })
 
 
-        $(document).on('change', '.total', function(){
-            // var total = $(this).val();
-            var baris_b = $(this).parents('.baris-data')
-            // $.each(baris_b, function(index, obj){
-            //     console.log(baris_b.find('.total'))
-            // })
-            console.log(baris_b.find('.total').val())
-        })
+        // $(document).on('change', '.total', function(){
+        //     // var total = $(this).val();
+        //     var baris_b = $(this).parents('.baris-data')
+        //     // $.each(baris_b, function(index, obj){
+        //     //     console.log(baris_b.find('.total'))
+        //     // })
+        //     console.log(baris_b.find('.total').val())
+        // })
 
         // $(document).on('keyup', '.total', function(){
         //     // var total = $(this).val();
@@ -320,6 +336,64 @@
         //     // })
         //     console.log(baris_b.find('.total').val())
         // })
+
+         $('.jenis_beli').on('change',function(){
+            var jenis_beli = $('.jenis_beli').val();
+        $('.caribarang').each(function(){
+            var baris_barang = $(this).parents('.baris-data')
+            var qty = baris_barang.find('.qty').val();
+            var barang = baris_barang.find('.caribarang').val()
+            var diskon = baris_barang.find('.diskon');
+            var harga_umum = baris_barang.find('.harga_umum');
+            var subtotal = baris_barang.find('.subtotal');
+            var total = baris_barang.find('.total');
+            var harga_beli = baris_barang.find('.harga_beli');
+            var hpp = baris_barang.find('.hpp');
+            $.ajax({
+                url:"{{ route ('cari-barang2') }}",
+                dataType:'JSON',
+                type:'GET',
+                data:"&cari="+barang+"&jenis="+jenis_beli,
+                success:function(data){
+                    if(baris_barang.find('.caribarang').val() == ''){
+                        $('#list-data option[value="'+barang+'"]').removeAttr('disabled');
+                    }else{
+                        $('#list-data option[value="'+barang+'"]').prop('disabled',true);
+                    }
+                    baris_barang.find('.harga_umum').val(data.harga_umum)
+                    baris_barang.find('.id-barang').val(data.id)
+                    baris_barang.find('.harga_beli').val(data.harga_beli)
+                    baris_barang.find('.stok').val(data.stok_akhir)
+                    hpp.val(parseInt(qty)*parseInt(harga_beli.val()))
+                    subtotal.val(parseInt(qty)*parseInt(harga_umum.val()))
+                    total.val(subtotal.val())-(parseInt(diskon.val()))
+                    total_hpp()
+                    mencari_total()
+                },
+                error:function(thrownError,ajaxOption,xhr){
+                    // alert('error cok ')
+                }
+            })
+        })
+        })
+
+        $(document).on('keyup', '.harga_umum', function(){
+            var qty = $(this).val();
+            var baris_barang = $(this).parents('.baris-data');
+            var diskon = baris_barang.find('.diskon');
+            var harga_umum = baris_barang.find('.harga_umum');
+            var subtotal = baris_barang.find('.subtotal');
+            var total = baris_barang.find('.total');
+            var harga_beli = baris_barang.find('.harga_beli');
+            var hpp = baris_barang.find('.hpp');
+
+            hpp.val(parseInt(qty)*parseInt(harga_beli.val()))
+            subtotal.val(parseInt(qty)*parseInt(harga_umum.val()))
+            total.val(subtotal.val())-(parseInt(diskon.val()))
+            total_hpp()
+            mencari_total()
+        })
+
         function mencari_total(){
             var angka = 0;
             var ppn = $('.ppn').val()
@@ -336,8 +410,22 @@
 
             input_harga_ppn.val(harga_ppn)
             input_tagihan.val(tagihan) 
+            konver_total_keseluruhan(angka)
+            konver_harga_ppn(harga_ppn)
             // console.log(tagihan)
         } 
+
+        $(document).on('keyup','.bayar',function(){
+            var total = parseInt($('.bayar').val())-parseInt($('.tagihan').val());
+            // $('.kembalian').val(total);
+            konver_kembalian(total)
+        })
+
+        $(document).on('change','.bayar',function(){
+            var total = parseInt($('.bayar').val())-parseInt($('.tagihan').val());
+            // $('.kembalian').val(total);
+            konver_kembalian(total)
+        })
 
         function total_hpp() {
             var nilai = 0;
@@ -348,7 +436,77 @@
             })
             // console.log(nilai)
             total_hpp.val(nilai)
+            konver_hpp(nilai)
+        }
 
+        function konver_total_keseluruhan(nilai){
+            bilangan = nilai;
+            var number_string = bilangan.toString(),
+                sisa    = number_string.length % 3,
+                rupiah  = number_string.substr(0, sisa),
+                ribuan  = number_string.substr(sisa).match(/\d{3}/g);
+                    
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            $('.total-keseluruhan').val("Rp. "+rupiah)
+        }
+
+        function konver_harga_ppn(nilai){
+            bilangan = nilai;
+            var number_string = bilangan.toString(),
+                sisa    = number_string.length % 3,
+                rupiah  = number_string.substr(0, sisa),
+                ribuan  = number_string.substr(sisa).match(/\d{3}/g);
+                    
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            $('.harga-ppn').val("Rp. "+rupiah)
+        }
+
+        function konver_tagihan(nilai){
+            bilangan = nilai;
+            var number_string = bilangan.toString(),
+                sisa    = number_string.length % 3,
+                rupiah  = number_string.substr(0, sisa),
+                ribuan  = number_string.substr(sisa).match(/\d{3}/g);
+                    
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            $('.tagihan').val("Rp. "+rupiah)
+        }
+
+        function konver_kembalian(nilai){
+            bilangan = parseInt(nilai);
+            var number_string = bilangan.toString(),
+                sisa    = number_string.length % 3,
+                rupiah  = number_string.substr(0, sisa),
+                ribuan  = number_string.substr(sisa).match(/\d{3}/g);
+                    
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            $('.kembalian').val("Rp. "+rupiah)
+        }
+
+        function konver_hpp(nilai){
+            bilangan = nilai;
+            var number_string = bilangan.toString(),
+                sisa    = number_string.length % 3,
+                rupiah  = number_string.substr(0, sisa),
+                ribuan  = number_string.substr(sisa).match(/\d{3}/g);
+                    
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            $('.total_hpp').val("Rp. "+rupiah)
         }
 
         // $(document).on('change','#bayar',function(){
@@ -356,10 +514,7 @@
         //     $('#kembalian').val(total);
         // })
 
-        $(document).on('keyup','#bayar',function(){
-            var total = parseInt($('#bayar').val())-parseInt($('.tagihan').val());
-            $('#kembalian').val(total);
-        })
+        
 
         // function laba() {
         //     var laba = $('.laba')
@@ -372,6 +527,7 @@
         //     // nilai = total_keseluruhan.val()- total_hpp.val()
         //     laba.val(parseInt(total_keseluruhan.val())-parseInt(total_hpp.val()))
         // }
+       
 
     </script>
 @endsection

@@ -252,7 +252,31 @@
     </script> --}}
     <script type="text/javascript">
         $('#example').DataTable();
+
     </script>
+    <script>
+        $('.list-tabel-barang').DataTable({
+            "processing": true,
+                "serverSide": true,
+                "ajax":{
+                         "url": "{{ route('list-barang') }}",
+                         "dataType": "json",
+                         "type": "POST",
+                         "data":{ _token: "{{csrf_token()}}"}
+                       },
+                "columns": [
+                    { "data": "nama" },
+                    { "data": "satuan" },
+                    { "data": "harga_beli" },
+                    { "data": "harga_grosir" },
+                    { "data": "harga_langganan" },
+                    { "data": "harga_umum" },
+                    { "data": "expire" },
+                    { "data": "option" }
+                ]
+        });
+</script>
+
 </body>
 </html>
 

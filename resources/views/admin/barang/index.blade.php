@@ -30,7 +30,7 @@
                         <i class="icon-plus"></i>
                     </a>
                 </span>
-                <table id="example" class="responsive-table centered ">
+                <table class="responsive-table centered list-tabel-barang" width="100%">
                     <thead class="teal lighten-3">
                         <tr>
                             <th>Nama Obat</th>
@@ -43,7 +43,7 @@
                             <th >Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+<!--                     <tbody>
                         @foreach($barang as $item)
                         <tr>
                             <td>{{ $item->nama }}</td>
@@ -64,7 +64,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </table>
+ -->                </table>
             </div>
 
             <!-- {{ $barang->links() }} -->
@@ -72,4 +72,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection
