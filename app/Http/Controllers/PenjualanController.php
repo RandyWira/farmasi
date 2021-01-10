@@ -23,6 +23,21 @@ class PenjualanController extends Controller
      */
     public function index()
     {
+        // if ($request->ajax()) {
+        //     $data = $barang = Barang::orderBy('nama', 'ASC')
+        //             ->join('satuan', 'satuan.id_satuan', '=', 'barang.id_satuan')
+        //             ->select('barang.*', 'satuan.satuan')->get();
+        //             return Datatables::of($data)
+        //             ->addIndexColumn()
+        //             ->addColumn('action', function($row){
+     
+        //                    $btn = '<a href="'.$row->id.'" class="edit btn btn-primary btn-sm">View</a>';
+       
+        //                     return $btn;
+        //             })
+        //             ->rawColumns(['action'])
+        //             ->make(true);
+        // }
         $ppn = Ppn::orderBy('ppn', 'ASC')->first();
         $letak = Letak::orderBy('letak', 'ASC')->get();
         $barang = Barang::orderBy('nama', 'ASC')->get();
@@ -66,6 +81,92 @@ class PenjualanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function loaddata2(Request $request,Barang $barang)
+    {
+        // if ($request->has('q')) {
+        //     $cari = $request->q;
+        //     $data = DB::table('barang')->select('id', 'nama', 'harga_beli')->where('nama', 'LIKE', '%$cari%')->get();
+        //     return response()->json($data);
+        // }
+
+        $cari = $request->input('cari');
+        $jenis = $request->input('jenis');
+        // $data['a'] = DB::table('barang')->where('nama', 'LIKE'  , "%{$cari}%")->get();
+        $data_id = DB::table('barang')->where('nama',$cari)->first();
+
+        $cari_riwayat = DB::table('riwayat')->where('barang_id',$data_id->id)->get();
+
+        // if(count($cari_riwayat) === 0){
+        //     $data = DB::select('select *, stok_minimal as stok from barang where id = ? limit 1', [$data_id->id]);
+        // }else{
+        //     $data = DB::select('select barang.*,riwayat.stok_akhir as stok,riwayat.barang_id from barang join riwayat on barang.id = riwayat.barang_id where riwayat.barang_id = ? order by riwayat.barang_id DESC limit 1', [$data_id->id]);
+        // }
+        if(count($cari_riwayat) === 0)
+        {
+            $data = DB::select('select *, stok_minimal as stok from barang where id = ? limit 1', [$data_id->id]);
+        }else{
+            if($jenis == 'umum'){
+                $data = Barang::join('riwayat','riwayat.barang_id','=','barang.id')
+                ->select('barang.harga_umum','barang.id','barang.harga_beli','riwayat.stok_akhir as stok','riwayat.barang_id')
+                ->where('barang.id',$data_id->id)
+                ->first();
+            }elseif($jenis == 'grosir'){
+                    $data = Barang::join('riwayat','riwayat.barang_id','=','barang.id')
+                    ->select('barang.harga_grosir as harga_umum','barang.id','barang.harga_beli','riwayat.stok_akhir as stok','riwayat.barang_id')
+                ->where('barang.id',$data_id->id)
+                ->first();
+            }elseif($jenis == 'langganan'){
+                    $data = Barang::join('riwayat','riwayat.barang_id','=','barang.id')
+                    ->select('barang.harga_langganan as harga_umum','barang.id','barang.harga_beli','riwayat.stok_akhir as stok','riwayat.barang_id')
+                    ->where('barang.id',$data_id->id)
+                    ->first();
+            }
+        }
+
+
+        // $data['riwayat'] = DB::select('select * from riwayat where barang_id = ? order by DESC', [$data_id->id]);
+        return response()->json($data);
+    }
+
+    public function loaddata(Request $request)
+    {
+        // if ($request->has('q')) {
+        //     $cari = $request->q;
+        //     $data = DB::table('barang')->select('id', 'nama', 'harga_beli')->where('nama', 'LIKE', '%$cari%')->get();
+        //     return response()->json($data);
+        // }
+
+        $cari = $request->input('cari');
+        $jenis = $request->input('jenis');
+        // $data['a'] = DB::table('barang')->where('nama', 'LIKE'  , "%{$cari}%")->get();
+        $data_id = DB::table('barang')->where('nama',$cari)->first();
+
+        $cari_riwayat = DB::table('riwayat')->where('barang_id',$data_id->id)->get();
+
+        // if(count($cari_riwayat) === 0){
+        //     $data = DB::select('select *, stok_minimal as stok from barang where id = ? limit 1', [$data_id->id]);
+        // }else{
+        //     $data = DB::select('select barang.*,riwayat.stok_akhir as stok,riwayat.barang_id from barang join riwayat on barang.id = riwayat.barang_id where riwayat.barang_id = ? order by riwayat.barang_id DESC limit 1', [$data_id->id]);
+        // }
+        if(count($cari_riwayat) === 0)
+        {
+            $data = DB::select('select *, stok_minimal as stok from barang where id = ? limit 1', [$data_id->id]);
+        }else{
+            if($jenis == 'umum'){
+                $data = DB::select('select barang.harga_umum,barang.id,barang.harga_beli,riwayat.stok_akhir as stok,riwayat.barang_id from barang join riwayat on barang.id = riwayat.barang_id where riwayat.barang_id = ? order by riwayat.barang_id DESC limit 1', [$data_id->id]);
+            }elseif($jenis == 'grosir'){
+                    $data = DB::select('select barang.harga_grosir as harga_umum,barang.id,barang.harga_beli,riwayat.stok_akhir as stok,riwayat.barang_id from barang join riwayat on barang.id = riwayat.barang_id where riwayat.barang_id = ? order by riwayat.barang_id DESC limit 1', [$data_id->id]);
+            }else{
+                    $data = DB::select('select barang.harga_langganan as harga_umum,barang.id,barang.harga_beli,riwayat.stok_akhir as stok,riwayat.barang_id from barang join riwayat on barang.id = riwayat.barang_id where riwayat.barang_id = ? order by riwayat.barang_id DESC limit 1', [$data_id->id]);
+            }
+        }
+
+
+        // $data['riwayat'] = DB::select('select * from riwayat where barang_id = ? order by DESC', [$data_id->id]);
+        return response()->json($data);
+    }
+
     public function store(Request $request)
     {
         foreach($request->jual as $key => $value){

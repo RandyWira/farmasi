@@ -45,7 +45,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('satuan', 'SatuanController');
     Route::resource('opname', 'OpnameController');
     Route::resource('golongan', 'GolonganController');
+    Route::post('list-barang', 'BarangController@tabelbarang')->name('list-barang');
     Route::get('cari', 'OpnameController@loaddata')->name('cari');
+    Route::get('cari-barang', 'PenjualanController@loaddata')->name('cari-barang');
+    Route::get('cari-barang2', 'PenjualanController@loaddata2')->name('cari-barang2');
     Route::get('cari-jenis', 'BarangController@cari_jenis')->name('cari-jenis');
     Route::resource('riwayat', 'RiwayatController');
     Route::resource('stok', 'StokperlokasiController');
